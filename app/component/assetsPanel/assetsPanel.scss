@@ -1,0 +1,103 @@
+@import '../../variables.scss';
+
+assets-panel{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    background: $reality-dark-black;
+    transition: width 300ms;
+    color: $reality-blue;
+ 
+    .team-selector{
+        display: flex;
+        flex-direction: row;
+        .team{
+            @media (min-width: $desktop-size) {
+                padding: 10px 0;
+            }
+           
+            width: 100%;
+            color: black;
+            transition: background 200ms;
+            @media(max-width: $desktop-size) {
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+            &:nth-child(1){
+                background: rgba(148, 27, 12, 1);
+
+
+                @media(max-width: $desktop-size) {          // On mobile screens: 
+                    background: rgba(148, 27, 12, 0.4);   // background changes to a darker tone 
+
+                    &:hover, &.active{
+                        background: rgba(148, 27, 12, 1); // unless is active or hovered
+                    }
+                }              
+            } 
+            &:nth-child(2){
+                
+                background: rgba(44,153,175,1); // Default color
+
+                @media(max-width: $desktop-size) {          // On mobile screens: 
+                    background: rgba(44,153,175, 0.4);    // background changes to a darker tone 
+                    &:hover, &.active{
+                        background: rgba(44,153,175,1);   // unless is active or hovered
+                    }
+                }     
+            }
+
+           .code,  .name, .info{
+                text-align: center;
+            }   
+
+            .code{
+                text-transform: uppercase;
+            }
+            .info{
+                font-size: small;
+            }
+        }
+    }
+
+    .team-assets{
+        display: flex;
+        flex-direction: row;
+
+        .spawner-card-wrapper{
+            width: 100%;
+            .no-vehicles{
+                text-align: center;
+                
+                @media(min-width: $desktop-size){
+                    margin: 50px 0;
+                }
+
+               
+            }
+            .spawner-card {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 15px 10px; 
+                &:hover{
+                    background: rgba(255, 255, 255, 0.1);
+                }
+                .spawnwer-icon{
+                    width: 16px;
+                    height: 16px;
+                    margin: 0px 15px 0 10px;
+                }
+                .spawnwer-info{
+                    width: 100%;
+                    .spawnwer-name {
+                        font-weight: bold;
+                    }
+                }  
+            }
+        }
+    }
+}

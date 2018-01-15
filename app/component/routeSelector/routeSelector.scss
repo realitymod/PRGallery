@@ -1,0 +1,27 @@
+
+@import '../../variables.scss';
+route-selector{
+    overflow: auto;
+    background: $reality-dark-black;
+    color: $reality-blue;
+    display: block;
+    
+    .route-selector{
+        padding: 15px;
+        // "toggled" indicates that the button was just pressed
+        // so we ignore the hover to see how it will stay
+
+        &:hover{
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        &.active{
+            color: black;
+            background: $reality-blue;
+            &:hover{
+                background: lighten($reality-blue, 5%);
+            }
+        }
+    }
+}

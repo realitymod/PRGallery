@@ -1,0 +1,39 @@
+<div class="map-details">
+    <div class="main">
+        <!-- Map Viewport -->
+        <div id="Map"></div>
+
+        <!-- Reality Control Panel-->
+        <div class="map-widget" ng-click="$event.stopPropagation();">
+            <div class="panel">
+                <div class="panel-element" panel-show="$ctrl.ShowRoutes">
+                    <route-selector  routes="$ctrl.GetNumberOfRoutes()" on-route-toggle="$ctrl.SetRoute(route,state)" ></route-selector>
+                </div>
+                <div class="panel-element" panel-show="$ctrl.ShowLayersPanel">
+                    <layout-selector layouts="$ctrl.level.Layouts" current-layout="$ctrl.layout" on-layout-selected="$ctrl.onLayoutSelected(gamemode, layer)" ></layout-selector>
+                </div>
+
+                <div class="panel-element mobile-only" panel-show="$ctrl.ShowAssetsPanel">
+                    <assets-panel assets="$ctrl.layout.Assets" teams="$ctrl.layout.Team" ></assets-panel>
+                </div>
+
+            </div>
+        
+            <div class="controls">
+                <i class="action material-icons desktop-only" ng-click="$ctrl.Zoom(1);" ng-class="{disabled: !$ctrl.CanZoom(1)}">zoom_in</i>
+                <i class="action material-icons desktop-only" ng-click="$ctrl.Zoom(-1);" ng-class="{disabled: !$ctrl.CanZoom(-1)}">zoom_out</i>
+                <i class="action material-icons" ng-click="$ctrl.ToggleGrid();">{{$ctrl.IsGridVisible() ? 'grid_on' : 'grid_off'}}</i>
+                <i class="action material-icons" ng-click="$ctrl.ShowRoutes = !$ctrl.ShowRoutes; $ctrl.ShowAssetsPanel = false; $ctrl.ShowLayersPanel = false;">timeline</i>
+                <i class="action material-icons" ng-click="$ctrl.ShowLayersPanel = !$ctrl.ShowLayersPanel; $ctrl.ShowAssetsPanel = false; $ctrl.ShowRoutes = false;">layers</i>
+                <i class="action material-icons mobile-only" ng-click="$ctrl.ShowAssetsPanel = !$ctrl.ShowAssetsPanel; $ctrl.ShowLayersPanel = false; $ctrl.ShowRoutes = false;" >info</i>
+                <i class="action material-icons desktop-only" ng-click="$ctrl.HideSideBar = !$ctrl.HideSideBar; $ctrl.UpdateMap();" >info</i>
+            </div>
+        </div>
+</div>
+    <div class="assets-sidebar desktop-only" ng-class="{hide: $ctrl.HideSideBar}">
+        <div class="slider">
+                <assets-panel assets="$ctrl.layout.Assets" teams="$ctrl.layout.Team" ></assets-panel>
+        </div>
+    </div>
+    
+</div>

@@ -1,0 +1,71 @@
+
+@import '../../variables.scss';
+
+layout-selector{
+    overflow: auto;
+    display: block;
+    background: $reality-dark-black;
+    color: $reality-blue;
+    padding: 20px;
+
+    .selector {
+
+        &:nth-child(2){
+            margin-top: 20px; 
+        }
+    
+  .title {
+        text-align: center;
+        position: relative;
+        font-size: 1.2em;
+
+
+
+
+        & span {
+            background: #0c0c0c;
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+        }
+        &::after {
+            content: "";
+            height: 1px;
+            width: 100%;
+            background: #3399cc;
+            position: absolute;
+            top: 0.7em;
+            left: 0;
+        }
+      }
+
+    .options {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    
+        .item {
+            padding: 15px 20px;
+            margin: 5px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            
+            &:hover:not(.disabled):not(.active){
+                cursor: pointer;
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            &.active{
+                color: black;
+                background: $reality-blue;
+            }
+            &.disabled {
+                text-decoration: line-through;
+                color: #717171;
+            }
+        }
+    }}
+}

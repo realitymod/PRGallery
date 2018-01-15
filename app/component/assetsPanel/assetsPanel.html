@@ -1,0 +1,81 @@
+<div class="header">
+    <div class="team-selector">
+        <div class="team" ng-click="$ctrl.Team = 0;" ng-class="{active: $ctrl.Team == 0}">
+            <div class="code mobile-only">{{$ctrl.teams[0].Code}}</div>
+            <div class="name desktop-only">{{$ctrl.teams[0].Name}}</div>
+            <div class="info">{{$ctrl.teams[0].Tickets}} Tickets</div>
+        </div>
+        <div class="team" ng-click="$ctrl.Team = 1;" ng-class="{active: $ctrl.Team == 1}">
+            <div class="code mobile-only">{{$ctrl.teams[1].Code}}</div>
+            <div class="name desktop-only">{{$ctrl.teams[1].Name}}</div>
+            <div class="info">{{$ctrl.teams[1].Tickets}} Tickets</div>   
+        </div>
+    </div>
+</div>
+
+
+<div class="team-assets">
+
+    <!-- Always Team 1 (DESKTOP only)-->
+    <div class="spawner-card-wrapper desktop-only"> 
+        <div class="spawner-card" ng-repeat="spawner in $ctrl.GetAssets( 0 )"> 
+            <div class="spawnwer-icon icon-asset" ng-class="spawner.Vehicle.Icon"></div>
+            <div class="spawnwer-info">
+                <div class="spawnwer-name">{{spawner.Vehicle.Name}}</div>
+                <div class="spawnwer-details-wrapper">
+                    <span class="spawnwer-detail">{{spawner.Quantity}}x</span>
+                    <span class="spawnwer-detail" ng-show="spawner.InitialDelay != 0">Delay: {{spawner.InitialDelay/60 | number: 0}}m |</span> 
+                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay > 9000">No Respawn</span>
+                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay < 9000">Respawn: {{spawner.RespawnDelay/60 | number: 0}}m</span>
+                </div>
+            </div>      
+        </div>    
+
+         <!--  No Vehicles Message-->
+        <div class="no-vehicles" ng-show="$ctrl.GetAssets( 0 ).length === 0">
+            No assets in this layout.
+        </div>
+    </div>
+
+    <!-- Always Team 2 (DESKTOP only) -->
+    <div class="spawner-card-wrapper desktop-only"> 
+        <div class="spawner-card" ng-repeat="spawner in $ctrl.GetAssets( 1 )"> 
+            <div class="spawnwer-icon icon-asset" ng-class="spawner.Vehicle.Icon"></div>
+            <div class="spawnwer-info">
+                <div class="spawnwer-name">{{spawner.Vehicle.Name}}</div>
+                <div class="spawnwer-details-wrapper">
+                    <span class="spawnwer-detail">{{spawner.Quantity}}x</span>   
+                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay > 9000">No Respawn</span>
+                    <span class="spawnwer-detail" ng-show="spawner.InitialDelay != spawner.RespawnDelay && spawner.InitialDelay != 0">Delay: {{spawner.InitialDelay/60}}m</span> 
+                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay < 9000">Respawn: {{spawner.RespawnDelay/60}}m</span>
+                </div>
+            </div>     
+        </div>    
+         <!--  No Vehicles Message-->
+         <div class="no-vehicles" ng-show="$ctrl.GetAssets( 1 ).length === 0">
+            No assets in this layout.
+        </div>
+    </div>
+
+    <!-- May be Team 1 or 2 (MOBILE only) -->
+    <div class="spawner-card-wrapper mobile-only"> 
+        <div class="spawner-card" ng-repeat="spawner in $ctrl.GetAssets( $ctrl.Team )"> 
+            <div class="spawnwer-icon icon-asset" ng-class="spawner.Vehicle.Icon"></div>
+            <div class="spawnwer-info">
+                <div class="spawnwer-name">{{spawner.Vehicle.Name}}</div>
+                <div class="spawnwer-details-wrapper">
+                    <span class="spawnwer-detail">{{spawner.Quantity}}x</span>   
+                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay > 9000">No Respawn</span>
+                    <span class="spawnwer-detail" ng-show="spawner.InitialDelay != spawner.RespawnDelay && spawner.InitialDelay != 0">Delay: {{spawner.InitialDelay/60}}m</span> 
+                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay < 9000">Respawn: {{spawner.RespawnDelay/60}}m</span>
+                </div>
+            </div>     
+        </div>   
+         <!--  No Vehicles Message-->
+         <div class="no-vehicles" ng-show="$ctrl.GetAssets( $ctrl.Team ).length === 0">
+            No assets in this layout.
+        </div> 
+    </div>
+</div>
+
+

@@ -1,0 +1,26 @@
+
+<i ui-sref="browser" class="material-icons" ng-show="$ctrl.ShowArrow">arrow_back</i>
+<div class="header-text">
+    <div class="title">{{$ctrl.Title}}</div>
+    <div class="sub-title" ng-show="$ctrl.Subtitle">{{$ctrl.Subtitle}}</div>
+</div>
+
+
+<!--<div>
+    <input type="text" ng-model="$ctrl.Query" ng-change="$ctrl.OnQueryChange()" />
+</div>-->
+
+<!-- Navigation -->
+<i class="material-icons mobile-only" ng-click="$ctrl.ShowNav = !$ctrl.ShowNav;">more_vert</i>
+<nav class="links" ng-class="{hide: !$ctrl.ShowNav}">
+    <a href="http://www.realitymod.com/prspy/" class="link">PRSPY</a>
+    <a href="http://www.realitymod.com/forum/" class="link">Forums</a>
+</nav>
+
+
+
+<!-- loading bar -->
+<div class="progress-bar" ng-show="$ctrl.Busy">
+    <div class="mainbar bar"></div>
+    <div class="auxbar bar"></div>
+</div>
