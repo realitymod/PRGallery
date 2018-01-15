@@ -1,0 +1,9 @@
+{
+    "module_resolution": "node",
+    
+    "compilerOptions": {
+        "target": "ES6",
+        "traceResolution": false,
+        "allowJs": true
+    }
+}
