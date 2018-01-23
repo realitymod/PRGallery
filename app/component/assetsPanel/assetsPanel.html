@@ -45,9 +45,9 @@
                 <div class="spawnwer-name">{{spawner.Vehicle.Name}}</div>
                 <div class="spawnwer-details-wrapper">
                     <span class="spawnwer-detail">{{spawner.Quantity}}x</span>   
+                    <span class="spawnwer-detail" ng-show="spawner.InitialDelay != 0">Delay: {{spawner.InitialDelay/60 | number: 0}}m |</span> 
                     <span class="spawnwer-detail" ng-show="spawner.RespawnDelay > 9000">No Respawn</span>
-                    <span class="spawnwer-detail" ng-show="spawner.InitialDelay != spawner.RespawnDelay && spawner.InitialDelay != 0">Delay: {{spawner.InitialDelay/60}}m</span> 
-                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay < 9000">Respawn: {{spawner.RespawnDelay/60}}m</span>
+                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay < 9000">Respawn: {{spawner.RespawnDelay/60 | number: 0}}m</span>
                 </div>
             </div>     
         </div>    
@@ -65,9 +65,9 @@
                 <div class="spawnwer-name">{{spawner.Vehicle.Name}}</div>
                 <div class="spawnwer-details-wrapper">
                     <span class="spawnwer-detail">{{spawner.Quantity}}x</span>   
+                    <span class="spawnwer-detail" ng-show="spawner.InitialDelay != 0">Delay: {{spawner.InitialDelay/60 | number: 0}}m |</span> 
                     <span class="spawnwer-detail" ng-show="spawner.RespawnDelay > 9000">No Respawn</span>
-                    <span class="spawnwer-detail" ng-show="spawner.InitialDelay != spawner.RespawnDelay && spawner.InitialDelay != 0">Delay: {{spawner.InitialDelay/60}}m</span> 
-                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay < 9000">Respawn: {{spawner.RespawnDelay/60}}m</span>
+                    <span class="spawnwer-detail" ng-show="spawner.RespawnDelay < 9000">Respawn: {{spawner.RespawnDelay/60 | number: 0}}m</span>
                 </div>
             </div>     
         </div>   
