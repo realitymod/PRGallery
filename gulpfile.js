@@ -9,6 +9,9 @@ const server = require("gulp-live-server");
 const sass = require("gulp-sass");
 const autoprefixer = require("gulp-autoprefixer");
 const concat = require("gulp-concat");
+const cleanCSS = require('gulp-clean-css');
+const uglify = require('gulp-uglify-es').default;
+const rename = require("gulp-rename");
 
 gulp.task('browserify', function() {
 
@@ -16,8 +19,16 @@ gulp.task('browserify', function() {
         .plugin(tsify)
         .bundle()
         .pipe(source('main.js'))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist'));
 });
+
+gulp.task("uglify", ["browserify"], function () {
+    return gulp.src("dist/main.js")
+        .pipe(rename("main.min.js"))
+        .pipe(uglify(/* options */))
+        .pipe(gulp.dest("dist/"));
+});
+
 
 /*
  * Minify and uglify CSS
@@ -31,6 +42,7 @@ gulp.task('styles', function() {
         .pipe(sass())
         .pipe(autoprefixer())
         .pipe(concat("bundle.css"))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(gulp.dest('dist'));
 });
 
@@ -40,7 +52,7 @@ gulp.task('styles', function() {
 gulp.task('minify', function() {
     return gulp.src('app/**/*.html')
         .pipe(debug())
-        .pipe(htmlmin())
+        .pipe(htmlmin({collapseWhitespace: true, removeComments:true}))
         .pipe(gulp.dest('dist'));
 });
 
@@ -49,7 +61,7 @@ gulp.task('minify', function() {
  */
 gulp.task('watch', function() {
     gulp.watch('app/**/*.html', ['minify']);
-    gulp.watch('app/**/*.ts', ['browserify']);
+    gulp.watch('app/**/*.ts', ['uglify']);
     gulp.watch('app/**/*.scss', ['styles']);
 });
 
@@ -57,7 +69,7 @@ gulp.task('watch', function() {
 /*
  * Run Server
  */
-gulp.task('webserver', ['browserify', 'minify', 'styles'], function() {
+gulp.task('webserver', ['uglify', 'minify', 'styles'], function() {
     server
         .static('dist', 3000)
         .start();
