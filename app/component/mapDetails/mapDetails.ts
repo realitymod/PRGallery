@@ -64,7 +64,7 @@ class MapDetailsComponent implements router.Ng1Controller {
         this.mMap.setMaxZoom(this.MaxZoom);
 
         // Create the tile layer
-        this.mTiles = L.tileLayer(`./images/${MapService.cleanName(this.level.Name)}/tiles/{z}/{x}/{y}.jpg`, {
+        this.mTiles = L.tileLayer(`./images/maps/${MapService.cleanName(this.level.Name)}/tiles/{z}/{x}/{y}.jpg`, {
             noWrap: true,
             bounds: new L.LatLngBounds(this.mMap.unproject(L.point(0, 0), this.MaxZoom), this.mMap.unproject(L.point(this.mScale, this.mScale), this.MaxZoom))
         }).addTo(this.mMap);

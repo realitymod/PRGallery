@@ -1,7 +1,7 @@
 
 <div class="card-wrapper">
     <a class="map-card" ng-repeat="map in $ctrl.Maps" ng-click="$ctrl.OpenDetails(map);" > 
-        <img class="map-image" ng-src="./images/{{$ctrl.getKey(map.Name)}}/tile.jpg" />
+        <img class="map-image" ng-src="./images/maps/{{$ctrl.getKey(map.Name)}}/tile.jpg" />
         <div class="map-info">
             <span class="map-name">{{map.Name}}</span> <span class="map-size">({{map.Size}} km)</span>
         </div>
