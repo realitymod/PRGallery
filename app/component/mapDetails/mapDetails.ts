@@ -118,33 +118,33 @@ class MapDetailsComponent implements router.Ng1Controller {
     }
 
 
-public UpdateMap(){
-    setTimeout(()=>{
-        this.mMap.invalidateSize();
-    }, 500); 
-}
+    public UpdateMap() {
+        setTimeout(() => {
+            this.mMap.invalidateSize();
+        }, 500);
+    }
 
     // @Override from Ng1Controller
     public uiOnParamsChanged(newValues: any, $transition$: router.Transition): void {
         //console.log("uiOnParamsChanged " + JSON.stringify(newValues));
-        if(!newValues)
+        if (!newValues)
             return;
 
-        if(newValues.gamemode || newValues.layout){
+        if (newValues.gamemode || newValues.layout) {
             let map = $transition$.params().map;
             let gamemode = $transition$.params().gamemode;
             let layer = parseInt($transition$.params().layout);
-    
+
             this.MapService
                 .getLayout(map, gamemode, layer)
                 .then((layout) => {
                     if (layout !== undefined) {
-    
+
                         this.layout = layout;       // 1st: change the layout
                         this.mNumberOfRoutes = -1;  // 2nd: reset cached value of number of routes 
                         this.RenderLayout();        // 3rd: Update the UI
                         this.mToolbarService.Subtitle = `${GameMode.ProperName(gamemode)} ${Layer.ProperName(layer)}`;
-    
+
                         // Broadcast the layout has changed
                         this.$scope.$broadcast('change-layout');
                     }
@@ -190,7 +190,7 @@ public UpdateMap(){
     public onLayoutSelected(gamemode: string, layer: number) {
         let map = MapService.cleanName(this.level.Name);
         this.mToolbarService.Busy = true;
-        
+
         this.$state.go("details", {
             "map": map,
             "gamemode": gamemode,
@@ -231,10 +231,10 @@ public UpdateMap(){
         let routeLayer = this.mRouteLayer[route];
 
         if (state) {
-            routeLayer.addTo(this.mMap);     
+            routeLayer.addTo(this.mMap);
 
         } else {
-            this.mMap.removeLayer(routeLayer);     
+            this.mMap.removeLayer(routeLayer);
         }
     }
 
@@ -353,7 +353,7 @@ public UpdateMap(){
             let cps = points[k];
 
             if (cps === undefined || cps.length == 0) {
-                continue; 
+                continue;
             }
 
             // Initialize the center
@@ -573,7 +573,6 @@ class IconManager {
     public GetIcon(type: string, key: string): L.DivIcon {
         if (this.mIcons[key] !== undefined)
             return this.mIcons[key];
-
         let icon = L.divIcon({
             className: `icon-${type} ${key}`,
             iconSize: IconManager.GetSize(type)
