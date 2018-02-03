@@ -249,8 +249,16 @@ public UpdateMap(){
 
 
             let icon = this.mIconManager.GetIcon('asset', spawner.Vehicle.Icon);
+
             // We need to cast 'L.MarkerOptions' cause we use a plugin that adds 'rotationAngle' and TS cant handle that
-            L.marker(this.Unproject(spawner.Position.X, spawner.Position.Z), <L.MarkerOptions>{ icon: icon, "rotationAngle": spawner.Rotation.X, interactive: false }).addTo(layer);
+            var markerOptions: L.MarkerOptions = <L.MarkerOptions>{
+                icon: icon,
+                rotationAngle: spawner.Rotation.X,
+                rotationOrigin: 'center center',
+                interactive: false
+            };
+
+            L.marker(this.Unproject(spawner.Position.X, spawner.Position.Z), markerOptions).addTo(layer);
         }
     }
     private RenderLayout() {
