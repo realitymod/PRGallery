@@ -1,4 +1,7 @@
 @import './variables.scss';
+@import url('../node_modules/leaflet/dist/leaflet.css');
+
+
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -20,6 +23,20 @@ body {
         background: rgb(51, 51, 51) !important;
     }
 
+    // Override leaflet default divIcon style
+    .leaflet-div-icon {
+        background: initial;
+        border: initial;
+    }
+
+    // Override leaflet default tooltip style
+    .leaflet-tooltip {
+        padding: initial;
+        background-color: initial;
+        border: initial;
+        box-shadow: initial;
+        -webkit-box-shadow: initial;
+    }
     .leaflet-grid-label {
         color: white;
         font-size: 17px;
