@@ -5,5 +5,5 @@ Setting up the project
 ---------------------
 1. Make sure you have [npm](https://www.npmjs.com/)
 2. Install [gulp](https://www.npmjs.com/package/gulp) globally (`npm install -g gulp`) 
-3. Execute `gulp install` to download all dependencies
+3. Execute `npm install` to download all dependencies
 4. Execute `gulp` to build the project (distribuition files will be located in `dist/` )

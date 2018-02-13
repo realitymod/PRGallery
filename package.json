@@ -11,6 +11,7 @@
     "leaflet-rotatedmarker": "^0.2.0"
   },
   "devDependencies": {
+    "@types/node": "^9.4.4",
     "@types/angular": "^1.6.40",
     "@types/leaflet": "^1.2.5",
     "browserify": "^15.2.0",
@@ -24,6 +25,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-uglify-es": "^1.0.0",
+    "node-sass": "^4.7.2",
     "tsify": "^3.0.4",
     "typescript": "^2.6.2",
     "vinyl-buffer": "^1.0.1",

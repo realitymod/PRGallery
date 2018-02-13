@@ -36,7 +36,6 @@ gulp.task("uglify", ["browserify"], function () {
 gulp.task('styles', function() {
     return gulp.src([
             'app/**/*.scss',
-            'node_modules/leaflet/dist/leaflet.css'
         ])
         .pipe(debug())
         .pipe(sass())

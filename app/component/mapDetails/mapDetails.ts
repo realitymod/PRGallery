@@ -37,9 +37,10 @@ class MapDetailsComponent implements router.Ng1Controller {
     private mRouteLayer: L.LayerGroup[];
     private mVehicleLayer: L.LayerGroup;
     private mGrid: L.LayerGroup;
-    private mGridVisible: boolean = true;
+    private mSubGrid: L.LayerGroup;
     private mCombatAreaLayer: L.LayerGroup;
     private mNumberOfRoutes = -1;
+    private mMaxZoomAdd = 4;
     private mIconManager: IconManager = new IconManager();
     private $transition$;
     constructor(private $q: angular.IQService, private MapService: MapService, private $state: router.StateService, private mToolbarService: ToolbarService, private $scope: angular.IScope, $transition) {
@@ -61,11 +62,12 @@ class MapDetailsComponent implements router.Ng1Controller {
 
         // Set the scale and maximum zoom acording to the level
         this.mScale = MapDetailsComponent.GetScale(this.level);
-        this.mMap.setMaxZoom(this.MaxZoom);
-
+        this.mMap.setMaxZoom(this.MaxZoom + this.mMaxZoomAdd);
         // Create the tile layer
         this.mTiles = L.tileLayer(`./images/maps/${MapService.cleanName(this.level.Name)}/tiles/{z}/{x}/{y}.jpg`, {
             noWrap: true,
+            maxNativeZoom: this.MaxZoom,
+            maxZoom : this.MaxZoom + this.mMaxZoomAdd,
             bounds: new L.LatLngBounds(this.mMap.unproject(L.point(0, 0), this.MaxZoom), this.mMap.unproject(L.point(this.mScale, this.mScale), this.MaxZoom))
         }).addTo(this.mMap);
 
@@ -86,7 +88,6 @@ class MapDetailsComponent implements router.Ng1Controller {
 
         // Create the options for our grid
         let options: IOptions = {
-            showOriginLabel: false,
             redraw: 'move',
             bounds: new L.LatLngBounds(this.mMap.unproject(L.point(0, 0), this.MaxZoom), this.mMap.unproject(L.point(this.mScale, this.mScale), this.MaxZoom)),
             label: (axis, pos, rowColumn, zoom) => {
@@ -101,13 +102,42 @@ class MapDetailsComponent implements router.Ng1Controller {
                     return String.fromCharCode(65 + rowColumn);
             },
             padding: gridPadding,
+            lineStyle : {
+                stroke: true,
+                color: '#000000',
+                opacity: 0.6,
+                weight: 2,
+                interactive: false,
+                clickable: false //legacy support
+            },
             zoomIntervals: [
-                { start: 0, end: this.MaxZoom, interval: gridInterval },
+                { start: 0, end: this.MaxZoom + this.mMaxZoomAdd, interval: gridInterval },
             ]
         };
 
         // Create the Grid layer
         this.mGrid = new PRGraticule(options).addTo(this.mMap);
+
+        // Create the options for our subgrid
+        let optionsSub : IOptions = {
+            redraw: 'move',
+            bounds: new L.LatLngBounds(this.mMap.unproject(L.point(0, 0), this.MaxZoom), this.mMap.unproject(L.point(this.mScale, this.mScale), this.MaxZoom)),
+            padding: gridPadding,
+            lineStyle : {
+                stroke: true,
+                color: '#000000',
+                opacity: 0.4,
+                weight: 1,
+                interactive: false,
+                clickable: false //legacy support
+            },
+            zoomIntervals: [
+                { start: 0, end: this.MaxZoom + this.mMaxZoomAdd, interval: gridInterval / 3 },
+            ]
+        };
+        
+        // Create the Grid layer
+        this.mSubGrid = new PRGraticule(optionsSub);
 
         // Render the layout
         this.RenderLayout();
@@ -214,16 +244,19 @@ class MapDetailsComponent implements router.Ng1Controller {
 
 
     public IsGridVisible() {
-        return this.mGridVisible;
+        return this.mMap.hasLayer(this.mGrid) || this.mMap.hasLayer(this.mSubGrid);
     }
 
     public ToggleGrid() {
-        this.mGridVisible = !this.mGridVisible;
-
-        if (this.mGridVisible)
-            this.mGrid.addTo(this.mMap);
+        if (this.mMap.hasLayer(this.mGrid))
+            if (this.mMap.hasLayer(this.mSubGrid)) {
+                this.mMap.removeLayer(this.mSubGrid);
+                this.mMap.removeLayer(this.mGrid);
+            } else {
+                this.mMap.addLayer(this.mSubGrid);
+            }
         else
-            this.mMap.removeLayer(this.mGrid);
+            this.mGrid.addTo(this.mMap);
     }
 
     public SetRoute(route: number, state: boolean) {
