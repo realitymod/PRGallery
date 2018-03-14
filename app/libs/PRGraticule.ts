@@ -53,7 +53,6 @@ export class PRGraticule extends L.LayerGroup{
     }
 
     public onRemove(map:L.Map) {
-        console.log('remove')
         map.off('viewreset '+ this.mOptions.redraw, undefined, this);
         this.labels.eachLayer(map.removeLayer, map);
         this.lines.eachLayer(map.removeLayer, map);

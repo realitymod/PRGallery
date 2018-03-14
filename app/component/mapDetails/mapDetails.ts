@@ -43,6 +43,7 @@ class MapDetailsComponent implements router.Ng1Controller {
     private mMaxZoomAdd = 4;
     private mIconManager: IconManager = new IconManager();
     private $transition$;
+    public spawnerhover : number[];
     constructor(private $q: angular.IQService, private MapService: MapService, private $state: router.StateService, private mToolbarService: ToolbarService, private $scope: angular.IScope, $transition) {
         // Do nothing...  
 
@@ -57,7 +58,7 @@ class MapDetailsComponent implements router.Ng1Controller {
             center: new L.LatLng(0, 0),
             crs: L.CRS.Simple,
             zoom: 0,
-            zoomControl: false
+            zoomControl: false,
         });
 
         // Set the scale and maximum zoom acording to the level
@@ -142,6 +143,20 @@ class MapDetailsComponent implements router.Ng1Controller {
         // Render the layout
         this.RenderLayout();
 
+        
+        this.$scope.$watch(() => this.spawnerhover, function(newValue, oldValue) {
+            // console.log(this.spawnerhover + ' --> ' + oldValue + ' --> ' + newValue);
+            let mdc = this;
+            this.mVehicleLayer.eachLayer(function(layer) {
+                layer = <L.Marker> layer;
+                if (this.spawnerhover == undefined ||this.spawnerhover.indexOf(layer.options.bf2properties.uid) !== -1) {
+                    layer.setOpacity(1);
+                    layer.setIc
+                } else {
+                    layer.setOpacity(0.5);
+                }
+            }, mdc);
+        }.bind(this));
         // Zoom to fit
         //this.mMap.fitWorld();
         this.mMap.fitBounds(new L.LatLngBounds(this.mMap.unproject(L.point(0, 0), this.MaxZoom), this.mMap.unproject(L.point(this.mScale, this.mScale), this.MaxZoom)));
@@ -286,12 +301,26 @@ class MapDetailsComponent implements router.Ng1Controller {
             // We need to cast 'L.MarkerOptions' cause we use a plugin that adds 'rotationAngle' and TS cant handle that
             var markerOptions: L.MarkerOptions = <L.MarkerOptions>{
                 icon: icon,
+                title: spawner.Vehicle.Name,
+                bf2properties: {
+                    name: spawner.Vehicle.Name,
+                    code: spawner.Vehicle.Key,
+                    uid: spawner.uid
+                },
                 rotationAngle: spawner.Rotation.X,
                 rotationOrigin: 'center center',
-                interactive: false
+                interactive: true
             };
-
-            L.marker(this.Unproject(spawner.Position.X, spawner.Position.Z), markerOptions).addTo(layer);
+            let marker = new L.Marker(this.Unproject(spawner.Position.X, spawner.Position.Z), markerOptions);
+            marker.on('mouseover',function(ev) {
+                this.spawnerhover = [ev.target.options.bf2properties.uid];
+                this.$scope.$apply();
+            }, this);
+            marker.on('mouseout',function(ev) {
+                this.spawnerhover = undefined;
+                this.$scope.$apply();
+            }, this);
+            marker.addTo(layer);
         }
     }
     private RenderLayout() {
@@ -356,7 +385,15 @@ class MapDetailsComponent implements router.Ng1Controller {
         if (!cp.UnableToChangeTeam) {
             let radius = (cp.Radius * 256) / this.mScale;
 
-            L.circle(this.Unproject(cp.Position.X, cp.Position.Z), { radius: radius, color: COLORS[route - 1], stroke: false, interactive: false }).addTo(layer);
+            L.circle(this.Unproject(cp.Position.X, cp.Position.Z), {
+                radius: radius, 
+                color: COLORS[route - 1], 
+                stroke: true, 
+                weight: 1,
+                opacity: 0.5,
+                fillOpacity: 0.1,
+                interactive: false
+            }).addTo(layer);
         }
 
     }
@@ -458,7 +495,7 @@ class MapDetailsComponent implements router.Ng1Controller {
     private RenderCombatAreas(layer: L.LayerGroup) {
         for (let k = 0; k < this.layout.CombatAreas.length; k++) {
             let dod = this.layout.CombatAreas[k];
-
+            
             let polygon = [];
             for (let j = 0; j < dod.Points.length; j++) {
                 polygon.push(this.Unproject(dod.Points[j].X, dod.Points[j].Y));
@@ -480,10 +517,12 @@ class MapDetailsComponent implements router.Ng1Controller {
 
 
             let color: string;
+            let fillOpacity = 0.2;
 
             switch (dod.Team) {
                 case 0:
                     color = "black";
+                    fillOpacity = 0.5;
                     break;
                 case 1:
                     color = "#2c99af";
@@ -494,7 +533,14 @@ class MapDetailsComponent implements router.Ng1Controller {
             }
 
             // Add the polygon to layer
-            L.polygon(latlngs, { color: color, stroke: false, interactive: false }).addTo(layer);
+            L.polygon(latlngs, { 
+                color: color, 
+                stroke: true,
+                weight: 1,
+                opacity: 0.7,
+                fillOpacity: fillOpacity,
+                interactive: false
+            }).addTo(layer);
         }
     }
 

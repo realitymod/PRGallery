@@ -75,6 +75,7 @@ export class MapService {
 
                         for (let k = 0; k < level.Assets.length; k++) {
                             let spawner: Spawner = level.Assets[k];
+                            spawner.uid = k+1;
                             spawner.Vehicle = vehicles[spawner.Key];
                         }
 
