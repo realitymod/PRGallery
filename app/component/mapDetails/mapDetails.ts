@@ -22,6 +22,24 @@ let COLORS = [
     "#e74c3c"
 ];
 
+export interface VehicleMarkerOptions extends L.MarkerOptions {
+    bf2properties: {
+        name: string,
+        code: string,
+        uid: number
+    },
+    rotationAngle?: number,
+    rotationOrigin?: string,
+    interactive: boolean
+}
+
+export class VehicleMarker extends L.Marker {
+    constructor(latlng: L.LatLngExpression, options?: VehicleMarkerOptions) {
+        super(latlng, options);
+    };
+    // Properties
+    options: VehicleMarkerOptions;
+}
 
 class MapDetailsComponent implements router.Ng1Controller {
 
@@ -43,7 +61,8 @@ class MapDetailsComponent implements router.Ng1Controller {
     private mMaxZoomAdd = 4;
     private mIconManager: IconManager = new IconManager();
     private $transition$;
-    public spawnerhover : number[];
+    private spawnerhover : number[];
+    private spawnerjumper : number;
     constructor(private $q: angular.IQService, private MapService: MapService, private $state: router.StateService, private mToolbarService: ToolbarService, private $scope: angular.IScope, $transition) {
         // Do nothing...  
 
@@ -148,15 +167,35 @@ class MapDetailsComponent implements router.Ng1Controller {
             // console.log(this.spawnerhover + ' --> ' + oldValue + ' --> ' + newValue);
             let mdc = this;
             this.mVehicleLayer.eachLayer(function(layer) {
-                layer = <L.Marker> layer;
+                layer = <VehicleMarker> layer;
                 if (this.spawnerhover == undefined ||this.spawnerhover.indexOf(layer.options.bf2properties.uid) !== -1) {
                     layer.setOpacity(1);
                     layer.setIc
                 } else {
-                    layer.setOpacity(0.5);
+                    layer.setOpacity(0.2);
                 }
             }, mdc);
         }.bind(this));
+        
+        this.$scope.$on('spawnerjump', (e, args)=>{
+            if (args.length > 1 && this.spawnerjumper !== undefined) {
+                let currentid = args.indexOf(this.spawnerjumper);
+                if (currentid > -1 && currentid < args.length - 1)
+                    this.spawnerjumper = args[currentid+1];
+                else
+                    this.spawnerjumper = args[0];
+            } else {
+                this.spawnerjumper = args[0];
+            }
+            this.mVehicleLayer.eachLayer(function(layer) {
+                let marker = <VehicleMarker> layer;
+                if (marker.options.bf2properties.uid == this.spawnerjumper) {
+                    this.mMap.panTo(marker.getLatLng());
+                }
+            }, this)
+            
+        });
+
         // Zoom to fit
         //this.mMap.fitWorld();
         this.mMap.fitBounds(new L.LatLngBounds(this.mMap.unproject(L.point(0, 0), this.MaxZoom), this.mMap.unproject(L.point(this.mScale, this.mScale), this.MaxZoom)));
@@ -299,7 +338,7 @@ class MapDetailsComponent implements router.Ng1Controller {
             let icon = this.mIconManager.GetIcon('asset', spawner.Vehicle.Icon);
 
             // We need to cast 'L.MarkerOptions' cause we use a plugin that adds 'rotationAngle' and TS cant handle that
-            var markerOptions: L.MarkerOptions = <L.MarkerOptions>{
+            var markerOptions: VehicleMarkerOptions = {
                 icon: icon,
                 title: spawner.Vehicle.Name,
                 bf2properties: {
@@ -311,7 +350,7 @@ class MapDetailsComponent implements router.Ng1Controller {
                 rotationOrigin: 'center center',
                 interactive: true
             };
-            let marker = new L.Marker(this.Unproject(spawner.Position.X, spawner.Position.Z), markerOptions);
+            let marker = new VehicleMarker(this.Unproject(spawner.Position.X, spawner.Position.Z), markerOptions);
             marker.on('mouseover',function(ev) {
                 this.spawnerhover = [ev.target.options.bf2properties.uid];
                 this.$scope.$apply();
