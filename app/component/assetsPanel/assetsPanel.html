@@ -18,7 +18,7 @@
 
     <!-- Always Team 1 (DESKTOP only)-->
     <div class="spawner-card-wrapper desktop-only"> 
-            <div class="spawner-card" ng-repeat="spawner in $ctrl.GetAssets( 0 )" ng-class="spawner.uids.indexOf($ctrl.spawnerhover[0]) !== -1 ? 'hover':''" ng-mouseover="$ctrl.spawnerhover = spawner.uids" ng-mouseleave="$ctrl.spawnerhover = undefined" ng-click="$emit('spawnerjump', spawner.uids);">
+        <div class="spawner-card" ng-repeat="spawner in $ctrl.GetAssets( 0 )" ng-class="spawner.uids.indexOf($ctrl.spawnerhover[0]) !== -1 ? 'hover':''" ng-mouseover="$ctrl.spawnerhover = spawner.uids" ng-mouseleave="$ctrl.spawnerhover = undefined" ng-click="$emit('spawnerjump', spawner.uids);">
             <div class="spawnwer-icon icon-asset" ng-class="spawner.Vehicle.Icon"></div>
             <div class="spawnwer-info">
                 <div class="spawnwer-name">{{spawner.Vehicle.Name}}</div>

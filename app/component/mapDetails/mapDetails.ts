@@ -13,14 +13,14 @@ import { ToolbarService } from '../../service/ToolbarService/ToolbarService';
 
 
 let COLORS = [
-    "#1abc9c",
-    "#2ecc71",
-    "#3498db",
-    "#9b59b6 ",
-    "#f1c40f",
-    "#e67e22",
-    "#e74c3c"
-];
+    "#003aad",
+    "#d56c00",
+    "#8c59ff",
+    "#008a39",
+    "#ff58a1",
+    "#617100",
+    "#63185e"
+]
 
 export interface VehicleMarkerOptions extends L.MarkerOptions {
     bf2properties: {
@@ -164,8 +164,6 @@ class MapDetailsComponent implements router.Ng1Controller {
 
         
         this.$scope.$watch(() => this.spawnerhover, function(newValue, oldValue) {
-            // console.log(this.spawnerhover + ' --> ' + oldValue + ' --> ' + newValue);
-            let mdc = this;
             this.mVehicleLayer.eachLayer(function(layer) {
                 layer = <VehicleMarker> layer;
                 if (this.spawnerhover == undefined ||this.spawnerhover.indexOf(layer.options.bf2properties.uid) !== -1) {
@@ -174,7 +172,7 @@ class MapDetailsComponent implements router.Ng1Controller {
                 } else {
                     layer.setOpacity(0.2);
                 }
-            }, mdc);
+            }, this);
         }.bind(this));
         
         this.$scope.$on('spawnerjump', (e, args)=>{
@@ -190,7 +188,7 @@ class MapDetailsComponent implements router.Ng1Controller {
             this.mVehicleLayer.eachLayer(function(layer) {
                 let marker = <VehicleMarker> layer;
                 if (marker.options.bf2properties.uid == this.spawnerjumper) {
-                    this.mMap.panTo(marker.getLatLng());
+                    this.mMap.flyTo(marker.getLatLng(), this.mMap.getMaxZoom() - Math.round(this.mMap.getMaxZoom() /3));
                 }
             }, this)
             

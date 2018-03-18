@@ -96,6 +96,8 @@ assets-panel{
                     height: 16px;
                     margin: 0px 15px 0 10px;
                     transform: scale(calc(32 / 16));
+                    image-rendering: optimizespeed; // Force pixelation. Only works on FF
+                    image-rendering: pixelated; // Only works on Chrome
                 }
                 .spawnwer-info{
                     width: 100%;
