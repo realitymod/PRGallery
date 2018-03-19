@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="panel-element mobile-only" panel-show="$ctrl.ShowAssetsPanel">
-                    <assets-panel assets="$ctrl.layout.Assets" teams="$ctrl.layout.Team" ></assets-panel>
+                    <assets-panel assets="$ctrl.layout.Assets" teams="$ctrl.layout.Team" spawnerhover="$ctrl.spawnerhover"></assets-panel>
                 </div>
 
             </div>
@@ -32,7 +32,7 @@
 </div>
     <div class="assets-sidebar desktop-only" ng-class="{hide: $ctrl.HideSideBar}">
         <div class="slider">
-                <assets-panel assets="$ctrl.layout.Assets" teams="$ctrl.layout.Team" ></assets-panel>
+                <assets-panel assets="$ctrl.layout.Assets" teams="$ctrl.layout.Team" spawnerhover="$ctrl.spawnerhover"></assets-panel>
         </div>
     </div>
     

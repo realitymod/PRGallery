@@ -82,14 +82,22 @@ assets-panel{
                 display: flex;
                 flex-direction: row;
                 align-items: center;
+                cursor:pointer;
                 padding: 15px 10px; 
                 &:hover{
+                    background: rgba(255, 255, 255, 0.1);
+                }
+                
+                &.hover{
                     background: rgba(255, 255, 255, 0.1);
                 }
                 .spawnwer-icon{
                     width: 16px;
                     height: 16px;
                     margin: 0px 15px 0 10px;
+                    transform: scale(calc(32 / 16));
+                    image-rendering: optimizespeed; // Force pixelation. Only works on FF
+                    image-rendering: pixelated; // Only works on Chrome
                 }
                 .spawnwer-info{
                     width: 100%;

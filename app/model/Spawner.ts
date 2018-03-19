@@ -2,6 +2,7 @@ import { Vector3 } from './Vector';
 import { Vehicle } from './Vehicle';
 
 export interface Spawner {
+    uid : number;
     Key: string;
     Vehicle: Vehicle;
     InitialDelay: number;

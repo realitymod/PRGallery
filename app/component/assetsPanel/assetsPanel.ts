@@ -4,9 +4,10 @@ import { Team } from '../../model/Team';
 
 interface SpawnerExtended extends Spawner {
     Quantity: number;
+    uids :  number[];
 }
 
-class AssetsPanelComponent implements ng.IComponentController {
+class AssetsPanelComponent implements ng.IController {
 
     // binding properties
     private assets: Spawner[];
@@ -48,8 +49,11 @@ class AssetsPanelComponent implements ng.IComponentController {
                 if (extendedAssets[spawner.Team][key] === undefined) {
                     extendedAssets[spawner.Team][key] = <SpawnerExtended>spawner;
                     extendedAssets[spawner.Team][key].Quantity = 1;
-                } else
+                    extendedAssets[spawner.Team][key].uids = [spawner.uid ];
+                } else {
                     extendedAssets[spawner.Team][key].Quantity += 1;
+                    extendedAssets[spawner.Team][key].uids.push(spawner.uid);
+                }
             }
 
             // Get all values from dictionary, sort them and set the variable
@@ -172,6 +176,7 @@ angular
         controller: AssetsPanelComponent,
         bindings: {
             assets: '<',
-            teams: '<'
+            teams: '<',
+            spawnerhover: '='
         }
     });
