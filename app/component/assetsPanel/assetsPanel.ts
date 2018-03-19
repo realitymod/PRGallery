@@ -99,13 +99,13 @@ class AssetsPanelComponent implements ng.IController {
             case "mini_jet_asf":
             case "mini_jet_antiship":
             case "mini_jet_plane":
-                return 11;
+                return 12;
 
             case "mini_ahe_heavy":
             case "mini_ahe_light":
             case "mini_ahe_medium":
             case "mini_ahe_scout":
-                return 10;
+                return 11;
 
             case "mini_the_light":
             case "mini_the_medium":
@@ -113,41 +113,43 @@ class AssetsPanelComponent implements ng.IController {
             case "mini_the_heavy":
             case "mini_the_light_escort":
             case "mini_the_heavy_chinook":
-                return 9;
+                return 10;
 
             case "mini_tank_heavy":
             case "mini_tank_medium":
+                return 9;
+
+            case "mini_apc_heavy":
                 return 8;
 
             case "mini_apc_medium":
-            case "mini_apc_heavy":
-            case "mini_apc_light":
-            case "mini_apc_logistics":
-            case "mini_apc_medium_aavp7":
                 return 7;
-
 
             case "mini_rec_medium":
             case "mini_rec_atgm":
             case "mini_rec_light":
                 return 6;
 
+            case "mini_apc_light":
+            case "mini_apc_logistics":
+            case "mini_apc_medium_aavp7":
+                return 5;
 
             case "mini_adv_heavy":
             case "mini_adv_medium":
             case "mini_adv_light":
-                return 5;
+                return 4;
 
             case "mini_trk_support":
             case "mini_trk_logistics":
-                return 4;
+                return 3;
 
             case "mini_jep_light":
             case "mini_jep_atgm":
             case "mini_jep_support":
             case "mini_jep_medium":
             case "mini_jep_logistics":
-                return 3;
+                return 2;
 
             case "mini_civ_car_bomb":
             case "mini_civ_dirtbike":
@@ -156,7 +158,7 @@ class AssetsPanelComponent implements ng.IController {
             case "mini_civ_truck_semi":
             case "mini_civ_car":
             case "mini_civ_forklift":
-                return 2;
+                return 1;
 
             case "mini_shp_light":
             case "mini_shp_ssac":
