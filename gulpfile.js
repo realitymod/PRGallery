@@ -22,12 +22,12 @@ gulp.task('browserify', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task("uglify", ["browserify"], function () {
+gulp.task("uglify", gulp.series("browserify", function () {
     return gulp.src("dist/main.js")
         .pipe(rename("main.min.js"))
         .pipe(uglify(/* options */))
         .pipe(gulp.dest("dist/"));
-});
+}));
 
 
 /*
@@ -68,10 +68,10 @@ gulp.task('watch', function() {
 /*
  * Run Server
  */
-gulp.task('webserver', ['uglify', 'minify', 'styles'], function() {
+gulp.task('webserver', gulp.series('uglify', 'minify', 'styles', function() {
     server
         .static('dist', 3000)
         .start();
-});
+}));
 
-gulp.task('default', ['webserver', 'watch']);
+gulp.task('default', gulp.series('webserver', 'watch'));
