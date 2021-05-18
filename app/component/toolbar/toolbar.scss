@@ -1,133 +1,129 @@
-
-@import '../../variables.scss';
-toolbar{
-    height: 48px;
-    @media (min-width: $desktop-size) {
-        height: 64px;
-    }
-    background: $reality-light-black;
-    color: $reality-blue;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: row;
-    padding: 0 25px;
-    align-items: center;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    z-index: 99;
-    position: relative ;
-
-    i:hover{
-        background-color: rgba(255, 255,255, 0.1);
-        cursor:pointer;
-        border-radius: 50%;
-    }
-    .header-text {
-        width: 100%;
-        padding: 0 25px;
-        flex-shrink: 1;
-        overflow: hidden;
-        white-space: nowrap;
-        
-        .title {
-            white-space: nowrap;
-            font-size: 20px;
-            font-weight: 500;
-            line-height: 1;
-            letter-spacing: 0.02em;
-            font-weight: 400;
+@import "../../variables.scss";
+toolbar {
+    .toolbar {
+        height: 48px;
+        @media (min-width: $desktop-size) {
+            height: 64px;
         }
-        .sub-title {
-            font-size: small;
-        }
-    } 
-    
-    nav.links {
+        background: $reality-light-black;
+        color: $reality-blue;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
         display: flex;
         flex-direction: row;
+        padding: 0 25px;
+        align-items: center;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        z-index: 99;
+        position: relative;
 
-        @media( max-width: $desktop-size){
-            position: absolute;
-            top: 100%;
-            right: 30px;
-            flex-direction: column;
-            background: #111;
-            border-radius: 2px;
-            padding: 10px 20px;
-            &.hide{
-                display: none;
+        i:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .header-text {
+            width: 100%;
+            padding: 0 25px;
+            flex-shrink: 1;
+            overflow: hidden;
+            white-space: nowrap;
+
+            .title {
+                white-space: nowrap;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 1;
+                letter-spacing: 0.02em;
+                font-weight: 400;
+            }
+            .sub-title {
+                font-size: small;
             }
         }
 
-        a.link {
-            display: block;
-            padding: 15px;
-            color: inherit;
-            text-decoration: none;
-            transition: background 200ms;
-            &:hover {
-                background-color: rgba(255, 255,255, 0.1);
+        nav.links {
+            display: flex;
+            flex-direction: row;
+
+            @media (max-width: $desktop-size) {
+                position: absolute;
+                top: 100%;
+                right: 30px;
+                flex-direction: column;
+                background: #111;
+                border-radius: 2px;
+                padding: 10px 20px;
+                &.hide {
+                    display: none;
+                }
+            }
+
+            a.link {
+                display: block;
+                padding: 15px;
+                color: inherit;
+                text-decoration: none;
+                transition: background 200ms;
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.1);
+                }
             }
         }
-    }
 
-
-    .progress-bar{
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-       
-      
-        .bar{
-            height: 100%;
+        .progress-bar {
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
-            transition: width .2s cubic-bezier(.4,0,.2,1);
-            background-color: $reality-blue;
+            width: 100%;
+            height: 2px;
 
-           
-        }
-        .mainbar{
-            animation: mymove 3s infinite;
+            .bar {
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                background-color: $reality-blue;
+            }
+            .mainbar {
+                animation: mymove 3s infinite;
+            }
+
+            .auxbar {
+                animation: mymove2 3s infinite;
+            }
         }
 
-        .auxbar{
-            animation: mymove2 3s infinite;
+        @keyframes mymove {
+            0% {
+                width: 0%;
+                left: 0;
+            }
+            50% {
+                left: 25%;
+                width: 75%;
+            }
+            75% {
+                left: 100%;
+                width: 0%;
+            }
         }
-    }
 
-
-    @keyframes mymove {
-        0%   {
-            width: 0%;
-            left: 0;
-        }
-        50%  {
-            left: 25%;
-width: 75%;
-        }
-        75%  {
-            left: 100%;
-            width: 0%;
-        }
-        
-    }
-
-    @keyframes mymove2 {
-        0%, 50%   {
-            left: 0%;
-            width: 0%;
-        }
-        75%  {
-            left: 0%;
-            width: 25%;
-        }
-        100% {
-            left: 100%;
-            width: 0%;
+        @keyframes mymove2 {
+            0%,
+            50% {
+                left: 0%;
+                width: 0%;
+            }
+            75% {
+                left: 0%;
+                width: 25%;
+            }
+            100% {
+                left: 100%;
+                width: 0%;
+            }
         }
     }
 }

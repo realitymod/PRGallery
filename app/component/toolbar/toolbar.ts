@@ -7,8 +7,10 @@ import { SearchEvent } from '../search/search';
 class ToolbarComponent implements ng.IComponentController {
 
     public static $inject = ["ToolbarService", "$state"];
+    private useFullSearchBar;
 
     constructor(private ToolbarService: ToolbarService, private mState: router.StateService) {
+
     }
 
     public get Title(){
@@ -27,7 +29,23 @@ class ToolbarComponent implements ng.IComponentController {
     }
 
     public get ShowSearch():boolean{
+        // Reset the full search bar if the search is not avaiable
+        // this way when the user goes back to the main page
+        // the search bar is not visible
+        if(this.useFullSearchBar && !this.ToolbarService.SearchAvailable)
+        {
+            this.useFullSearchBar = false;
+        }
+        
         return this.ToolbarService.SearchAvailable;
+    }
+
+    public get UseFullSearchBar():boolean{
+        return this.useFullSearchBar;
+    }
+
+    public set UseFullSearchBar(value:boolean){
+        this.useFullSearchBar = value;
     }
 
     public OnSearch(event: SearchEvent) : void
