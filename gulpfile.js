@@ -57,11 +57,11 @@ gulp.task('minify', function() {
 
 /*
  *
- */
+ */ 
 gulp.task('watch', function() {
-    gulp.watch('app/**/*.html', ['minify']);
-    gulp.watch('app/**/*.ts', ['uglify']);
-    gulp.watch('app/**/*.scss', ['styles']);
+    gulp.watch('app/**/*.html', gulp.series('minify'));
+    gulp.watch('app/**/*.ts', gulp.series('uglify'));
+    gulp.watch('app/**/*.scss', gulp.series('styles'));
 });
 
 
@@ -74,4 +74,4 @@ gulp.task('webserver', gulp.series('uglify', 'minify', 'styles', function() {
         .start();
 }));
 
-gulp.task('default', gulp.series('webserver', 'watch'));
+gulp.task('default', gulp.parallel('webserver', 'watch'));
