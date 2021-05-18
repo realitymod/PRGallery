@@ -24,7 +24,7 @@ class SearchViewModel  {
 
 
 class SearchComponent implements ng.IComponentController {
-    public static $inject = ["$timeout", "$state"];
+    public static $inject = ["$rootScope", "$state"];
 
     public IsSearchFocused: boolean = false;
     public IsSugestionsFocused: boolean = false;
@@ -43,8 +43,11 @@ class SearchComponent implements ng.IComponentController {
     //
     public onSearch: (search: {event: SearchEvent}) => void;
 
-    public constructor(private $timeout: ng.ITimeoutService, $state) {
+    public constructor($rootScope, private $state) {
         this.InitFromUrl($state.params);
+        // There's 2 instances of SearchComponent and while its not suposed for users
+        // to change the aspect ratio we keep the instances in sync anyways.
+        $rootScope.$on('$locationChangeSuccess', () => this.InitFromUrl(this.$state.params));
     }
 
   
