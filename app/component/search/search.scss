@@ -70,6 +70,9 @@ search {
           .sugestion {
             margin-top: 10px;
             padding: 5px;
+            @media (max-width: $desktop-size) {
+              margin: 15px 30px;
+            }
             &:hover {
               background: #39c;
               color: #111;
