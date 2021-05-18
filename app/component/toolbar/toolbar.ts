@@ -26,6 +26,10 @@ class ToolbarComponent implements ng.IComponentController {
         return this.ToolbarService.Busy;
     }
 
+    public get ShowSearch():boolean{
+        return this.ToolbarService.SearchAvailable;
+    }
+
     public OnSearch(event: SearchEvent) : void
     {
         this.mState.go("browser", {

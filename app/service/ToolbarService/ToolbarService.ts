@@ -6,6 +6,12 @@ export class ToolbarService {
     private mShowArrow: boolean;
     private mIsBusy: boolean;
 
+    /**
+     * Whether the search component 
+     * should be available or not.
+     */
+    public SearchAvailable: boolean;
+
     public static $inject = [];
     constructor() {
         // Do Nothing...

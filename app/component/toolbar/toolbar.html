@@ -6,7 +6,7 @@
 </div>
 
 
-<search on-search="$ctrl.OnSearch(event)"></search>
+<search ng-show="$ctrl.ShowSearch" on-search="$ctrl.OnSearch(event)"></search>
 
 <nav class="links" ng-class="{hide: !$ctrl.ShowNav}">
     <a href="https://www.realitymod.com/forum/" class="link">Forums</a>

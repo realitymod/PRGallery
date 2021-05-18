@@ -18,9 +18,11 @@ class App {
                 ToolbarService.Title = "Project Reality: Map Gallery"
                 ToolbarService.Subtitle = undefined;
                 ToolbarService.CanGoBack = false;
+                ToolbarService.SearchAvailable = true;
 
             } else if (state.name == "details") {
                 ToolbarService.CanGoBack = true;
+                ToolbarService.SearchAvailable = false;
                 
                 let level: Level = trans.injector().get('level');
                 ToolbarService.Title = `${level.Name} (${level.Size}Km)`;
