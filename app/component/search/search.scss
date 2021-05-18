@@ -1,8 +1,12 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
-html {
-    background: #111;
-  
+search {
+  @media (max-width: $desktop-size) 
+  {
+    flex-grow: 1;
+    min-width: 0;
+  }
+  .search-component {
     .search-bar {
       display: flex;
       border-bottom: solid 1px #39c;
@@ -11,7 +15,8 @@ html {
       color: #39c;
       align-items: center;
       position: relative;
-  
+      flex-grow: 1;
+      overflow-x: auto;
       input {
         outline: none;
         border: none;
@@ -19,10 +24,11 @@ html {
         color: #39c;
         placeholder: search;
       }
-  
+
       .chip-wrapper {
         display: flex;
         color: #111;
+
         .chip {
           background: #39c;
           border-radius: 10px;
@@ -31,49 +37,47 @@ html {
           align-items: center;
           display: flex;
           white-space: nowrap;
-          @media( max-width: $desktop-size)
-          {
+          @media (max-width: $desktop-size) {
             margin: 0 5px;
             padding-left: 5px;
           }
           i {
             margin: 10px;
             box-sizing: box;
-            @media( max-width: $desktop-size)
-            {
+            @media (max-width: $desktop-size) {
               margin: 5px;
             }
           }
         }
       }
-      .anchor {
-        background: green;
+    }
+    .anchor {
+      background: green;
+      position: absolute;
+      height: 100%;
+      top: 100%;
+      display: table;
+
+      .sugestion-window {
         position: absolute;
-        height: 100%;
-        top: 100%;
-        display: table;
-  
-        .sugestion-window {
-          position: absolute;
-          top: 0;
-          background: #111;
-          border-radius: 5px;
-          padding: 10px;
-          margin: 10px;
-          white-space: nowrap;
-          .sugestions {
-            .sugestion {
-              margin-top: 10px;
-              padding: 5px;
-              &:hover {
-                background: #39c;
-                color: #111;
-                cursor: pointer;
-              }
+        top: 0;
+        background: #111;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px;
+        white-space: nowrap;
+        .sugestions {
+          .sugestion {
+            margin-top: 10px;
+            padding: 5px;
+            &:hover {
+              background: #39c;
+              color: #111;
+              cursor: pointer;
             }
           }
         }
       }
     }
   }
-  
+}
