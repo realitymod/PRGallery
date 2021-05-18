@@ -28,7 +28,13 @@ class SearchComponent implements ng.IComponentController {
 
     public IsSearchFocused: boolean = false;
     public IsSugestionsFocused: boolean = false;
-    public get ShowSugestions(): boolean { return this.IsSearchFocused || this.IsSugestionsFocused }
+    public get ShowSugestions(): boolean { 
+        var shouldShow = this.IsSearchFocused || this.IsSugestionsFocused;
+        if(!shouldShow){
+            this.OptionsMenu = DefaultMenu;
+        }
+        return shouldShow;
+    }
 
     public OptionsMenu: Menu = DefaultMenu;
     public SearchModel: SearchViewModel = new SearchViewModel();
