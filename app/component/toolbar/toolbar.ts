@@ -2,11 +2,11 @@ import * as angular from 'angular';
 import * as router from '@uirouter/angularjs';
 import { Layout } from '../../model/Layout';
 import { ToolbarService } from '../../service/ToolbarService/ToolbarService';
+import { SearchEvent } from '../search/search';
 
 class ToolbarComponent implements ng.IComponentController {
 
     public static $inject = ["ToolbarService", "$state"];
-    public Query: string;
 
     constructor(private ToolbarService: ToolbarService, private mState: router.StateService) {
     }
@@ -26,11 +26,14 @@ class ToolbarComponent implements ng.IComponentController {
         return this.ToolbarService.Busy;
     }
 
-    public OnQueryChange(){
-        //console.log("OnQueryChange: " + this.Query);
+    public OnSearch(event: SearchEvent) : void
+    {
         this.mState.go("browser", {
-            "q": this.Query,
-        });
+            "name": event.Name,
+            "size": event.Size,
+            "mode": event.Mode,
+            "layer": event.Layer,
+        });   
     }
 }
 

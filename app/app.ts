@@ -39,14 +39,9 @@ angular
 
         $stateProvider.state({
             name: 'browser',
-            url: '/?q',
-            params: {
-                q: {
-                    dynamic: true
-                },
-            },
+            url: '/?name&size&mode&layer',
             component: 'mapBrowser',
-
+            reloadOnSearch: false,
         }).state({
             name: 'details',
             url: '/{map}/{gamemode}/{layout}?routes',

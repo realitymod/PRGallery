@@ -6,12 +6,8 @@
 </div>
 
 
-<!--<div>
-    <input type="text" ng-model="$ctrl.Query" ng-change="$ctrl.OnQueryChange()" />
-</div>-->
+<search on-search="$ctrl.OnSearch(event)"></search>
 
-<!-- Navigation -->
-<i class="material-icons mobile-only" ng-click="$ctrl.ShowNav = !$ctrl.ShowNav;">more_vert</i>
 <nav class="links" ng-class="{hide: !$ctrl.ShowNav}">
     <a href="https://www.realitymod.com/forum/" class="link">Forums</a>
     <a href="https://www.realitymod.com/prspy/" class="link">PRSPY</a>
@@ -19,6 +15,9 @@
 </nav>
 
 
+
+<!-- Navigation -->
+<i class="material-icons mobile-only" ng-click="$ctrl.ShowNav = !$ctrl.ShowNav;">more_vert</i>
 
 <!-- loading bar -->
 <div class="progress-bar" ng-show="$ctrl.Busy">

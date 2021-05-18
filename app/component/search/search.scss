@@ -1,0 +1,68 @@
+html {
+    background: #111;
+  
+    .search-bar {
+      display: flex;
+      border-bottom: solid 1px #39c;
+      padding: 5px;
+      color: #111;
+      color: #39c;
+      align-items: center;
+      position: relative;
+  
+      input {
+        outline: none;
+        border: none;
+        background: none;
+        color: #39c;
+        placeholder: search;
+      }
+  
+      .chip-wrapper {
+        display: flex;
+        color: #111;
+        .chip {
+          background: #39c;
+          border-radius: 10px;
+          margin: 0 10px;
+          padding-left: 10px;
+          align-items: center;
+          display: flex;
+          white-space: nowrap;
+          i {
+            margin: 10px;
+            box-sizing: box;
+          }
+        }
+      }
+      .anchor {
+        background: green;
+        position: absolute;
+        height: 100%;
+        top: 100%;
+        display: table;
+  
+        .sugestion-window {
+          position: absolute;
+          top: 0;
+          background: #111;
+          border-radius: 5px;
+          padding: 10px;
+          margin: 10px;
+          white-space: nowrap;
+          .sugestions {
+            .sugestion {
+              margin-top: 10px;
+              padding: 5px;
+              &:hover {
+                background: #39c;
+                color: #111;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
