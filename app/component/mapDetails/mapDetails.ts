@@ -533,6 +533,12 @@ class MapDetailsComponent implements router.Ng1Controller {
         for (let k = 0; k < this.layout.CombatAreas.length; k++) {
             let dod = this.layout.CombatAreas[k];
             
+            if(dod.Points.length < 3)
+            {
+                // A polygon needs at least 3 vertives
+                continue;
+            }
+
             let polygon = [];
             for (let j = 0; j < dod.Points.length; j++) {
                 polygon.push(this.Unproject(dod.Points[j].X, dod.Points[j].Y));
