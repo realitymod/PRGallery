@@ -13,7 +13,7 @@ class MapBrowserComponent {
     private mFilteredMaps: Level[];
     private mSearchQuery = new SearchModel();
 
-    constructor(private MapService: MapService, private $state, private $rootScope) {
+    constructor(private MapService: MapService, private $state, $rootScope) {
         this.MapService.getLevels().then((res) => {
             this.mMaps = res;
             this.OnMapQueriesFilterChanged();
