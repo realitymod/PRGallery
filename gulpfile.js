@@ -23,7 +23,9 @@ gulp.task('browserify', function() {
     return browserify('app/index.ts')
         .plugin(tsify)
         .bundle()
-        .pipe(source('main.js'))
+        .pipe(source('main.min.js'))
+        .pipe(buffer())
+        .pipe(uglify(/* options */))
         .pipe(gulp.dest('dist'));
 });
 
@@ -37,14 +39,6 @@ gulp.task('serviceworker', function() {
         .pipe(uglify(/* options */))
         .pipe(gulp.dest('dist'))
 });
-
-gulp.task("uglify", gulp.series("browserify", function () {
-    return gulp.src("dist/main.js")
-        .pipe(rename("main.min.js"))
-        .pipe(uglify(/* options */))
-        .pipe(gulp.dest("dist/"));
-}));
-
 
 /*
  * Minify and uglify CSS
@@ -83,7 +77,7 @@ gulp.task('staticfiles', function() {
  */
 gulp.task('watch', function() {
     gulp.watch('app/**/*.html', gulp.series('minify'));
-    gulp.watch(['app/**/*.ts', '!app/service_worker.ts'], gulp.series('uglify'));
+    gulp.watch(['app/**/*.ts', '!app/service_worker.ts'], gulp.series('browserify'));
     gulp.watch('app/**/*.scss', gulp.series('styles'));
     gulp.watch('app/service_worker.ts', gulp.series('serviceworker'));
     gulp.watch(FILES_TO_COPY, gulp.series('staticfiles'));
@@ -93,7 +87,7 @@ gulp.task('watch', function() {
 /*
  * Run Server
  */
-gulp.task('webserver', gulp.series('uglify', 'minify', 'styles', 'staticfiles', 'serviceworker', function() {
+gulp.task('webserver', gulp.series('browserify', 'minify', 'styles', 'staticfiles', 'serviceworker', function() {
     server
         .static('dist', 3000)
         .start();
