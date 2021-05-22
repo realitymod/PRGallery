@@ -1,7 +1,7 @@
 {
-  "background_color": "purple",
+  "background_color": "#111",
   "description": "Shows overviews, tickets and information for every project realty's map, including assets for each layout.",
-  "display": "fullscreen",
+  "display": "standalone",
   "icons": [
     {
       "src": "icon/manifest-icon-192.png",
@@ -18,5 +18,5 @@
   ],
   "name": "Project Reality's Map Gallery",
   "short_name": "PR Gallery",
-  "start_url": "/#!"
+  "start_url": "/mapgallery/#!"
 }
