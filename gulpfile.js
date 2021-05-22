@@ -13,6 +13,11 @@ const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify-es').default;
 const rename = require("gulp-rename");
 
+const FILES_TO_COPY = [
+    'app/manifest.webmanifest',
+    'app/icon/*.*'
+];
+
 gulp.task('browserify', function() {
 
     return browserify('app/index.ts')
@@ -20,6 +25,17 @@ gulp.task('browserify', function() {
         .bundle()
         .pipe(source('main.js'))
         .pipe(gulp.dest('dist'));
+});
+
+gulp.task('serviceworker', function() {
+
+    return browserify('app/service_worker.ts')
+        .plugin(tsify)
+        .bundle()
+        .pipe(source('service_worker.js'))
+        .pipe(buffer())
+        .pipe(uglify(/* options */))
+        .pipe(gulp.dest('dist'))
 });
 
 gulp.task("uglify", gulp.series("browserify", function () {
@@ -57,18 +73,27 @@ gulp.task('minify', function() {
 
 /*
  *
- */ 
+ */
+gulp.task('staticfiles', function() {
+    return gulp.src(FILES_TO_COPY,  {base: './app/'}).pipe(gulp.dest('dist'));
+});
+
+/*
+ *
+ */
 gulp.task('watch', function() {
     gulp.watch('app/**/*.html', gulp.series('minify'));
-    gulp.watch('app/**/*.ts', gulp.series('uglify'));
+    gulp.watch(['app/**/*.ts', '!app/service_worker.ts'], gulp.series('uglify'));
     gulp.watch('app/**/*.scss', gulp.series('styles'));
+    gulp.watch('app/service_worker.ts', gulp.series('serviceworker'));
+    gulp.watch(FILES_TO_COPY, gulp.series('staticfiles'));
 });
 
 
 /*
  * Run Server
  */
-gulp.task('webserver', gulp.series('uglify', 'minify', 'styles', function() {
+gulp.task('webserver', gulp.series('uglify', 'minify', 'styles', 'staticfiles', 'serviceworker', function() {
     server
         .static('dist', 3000)
         .start();
