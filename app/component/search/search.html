@@ -12,7 +12,7 @@
     </div>
     <div class="anchor" ng-show="$ctrl.ShowSugestions" ng-mouseenter="$ctrl.IsSugestionsFocused = true;" ng-mouseleave="$ctrl.IsSugestionsFocused = false;" >
         <div class="sugestion-window">
-            <div>{{$ctrl.OptionsMenu.Title}}</div>
+            <div class="title">{{$ctrl.OptionsMenu.Title}} Options</div>
             
             <div class="sugestions">
                 <div class="sugestion"  ng-repeat="subMenu in $ctrl.OptionsMenu.SubMenu" ng-click="$ctrl.OnMenuClick(subMenu)">

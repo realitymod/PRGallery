@@ -1,7 +1,7 @@
 import { Menu } from "./menu";
 
 export const ModeMenu: Menu = {
-    Title: "Mode Options",
+    Title: "Modes",
     Value: "Mode",
     SubMenu: [
         {
@@ -35,7 +35,7 @@ export const ModeMenu: Menu = {
     ],
 };
 export const SizeMenu: Menu = {
-    Title: "Size Options",
+    Title: "Sizes",
     Value: "Size",
     SubMenu: [
         {
@@ -58,7 +58,7 @@ export const SizeMenu: Menu = {
 };
 
 export const LayerMenu: Menu = {
-    Title: "Layer Options",
+    Title: "Layers",
     Value: "Layer",
     SubMenu: [
         {
@@ -80,7 +80,7 @@ export const LayerMenu: Menu = {
 };
 
 export const DefaultMenu: Menu = {
-    Title: "Search Options",
+    Title: "Search",
     SubMenu: [
         ModeMenu,
         SizeMenu,

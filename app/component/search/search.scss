@@ -66,6 +66,9 @@ search {
         padding: 10px;
         margin: 10px;
         white-space: nowrap;
+        .title{
+          font-style: italic;
+        }
         .sugestions {
           .sugestion {
             margin-top: 10px;
