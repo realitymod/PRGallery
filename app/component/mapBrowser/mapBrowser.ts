@@ -69,7 +69,7 @@ class MapBrowserComponent {
                 continue;
             }
 
-            if(searchQuery.Size && map.Size != searchQuery.Size)
+            if(searchQuery.Size && !searchQuery.Size.includes(map.Size))
             {
                 continue;
             }
@@ -80,12 +80,12 @@ class MapBrowserComponent {
                 var containsFilteredMode = !searchQuery.Mode ;
                 for(var layout of map.Layouts)
                 {
-                    if(layout.Key == searchQuery.Mode)
+                    if(containsFilteredMode || searchQuery.Mode.includes(layout.Key))
                     {
                         containsFilteredMode = true;
                     }
 
-                    if(layout.Value == searchQuery.Layer)
+                    if(containsFilteredLayer || searchQuery.Layer.includes(layout.Value))
                     {
                         containsFilteredLayer = true;
                     }

@@ -3,6 +3,7 @@ import * as router from '@uirouter/angularjs';
 import { Layout } from '../../model/Layout';
 import { ToolbarService } from '../../service/ToolbarService/ToolbarService';
 import { SearchEvent } from '../search/search';
+import { UrlUtils } from '../../utils/UrlUtils';
 
 class ToolbarComponent implements ng.IComponentController {
 
@@ -52,9 +53,9 @@ class ToolbarComponent implements ng.IComponentController {
     {
         this.mState.go("browser", {
             "name": event.Name,
-            "size": event.Size,
-            "mode": event.Mode,
-            "layer": event.Layer,
+            "size": UrlUtils.ArrayToUrl(event.Size),
+            "mode": UrlUtils.ArrayToUrl(event.Mode),
+            "layer": UrlUtils.ArrayToUrl(event.Layer),
         });   
     }
 }
