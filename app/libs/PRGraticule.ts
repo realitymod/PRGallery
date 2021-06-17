@@ -236,7 +236,6 @@ export class PRGraticule extends L.LayerGroup{
     public addOriginLabel() {
         return L.marker([0, 0], {
             interactive: false,
-            clickable: false, //legacy support
             icon: L.divIcon({
                 iconSize: [0, 0],
                 className: 'leaflet-grid-label',

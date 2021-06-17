@@ -416,7 +416,7 @@ class MapDetailsComponent implements router.Ng1Controller {
             icon = this.mIconManager.GetIcon('flag', `${faction}_${type}`);
         }
 
-        L.marker(this.Unproject(cp.Position.X, cp.Position.Z), { icon: icon, interactive: false }).addTo(layer);
+        L.marker(this.Unproject(cp.Position.X, cp.Position.Z), { icon: icon, interactive: true, title: cp.Name }).addTo(layer);
 
         // We'll only add a cap radius if indeed we can cap it
         if (!cp.UnableToChangeTeam) {
@@ -533,6 +533,12 @@ class MapDetailsComponent implements router.Ng1Controller {
         for (let k = 0; k < this.layout.CombatAreas.length; k++) {
             let dod = this.layout.CombatAreas[k];
             
+            if(dod.Points.length < 3)
+            {
+                // A polygon needs at least 3 vertives
+                continue;
+            }
+
             let polygon = [];
             for (let j = 0; j < dod.Points.length; j++) {
                 polygon.push(this.Unproject(dod.Points[j].X, dod.Points[j].Y));

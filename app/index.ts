@@ -1,6 +1,8 @@
 // Model should have 0 dependecies to the project
 import './model';
 
+import './utils';
+
 // Services should only depend on the model
 import './service';
 
@@ -12,3 +14,4 @@ import './component';
 
 // Same with directives
 import './directive';
+

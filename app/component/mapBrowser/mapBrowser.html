@@ -1,6 +1,13 @@
 
+<div class="search-status" ng-show="$ctrl.mSearchQuery.IsValid()">
+    <span class="search-criteria" ng-show="$ctrl.mSearchQuery.Name">{{$ctrl.mSearchQuery.Name}}</span>
+    <span class="search-criteria" ng-show="$ctrl.mSearchQuery.Size">{{$ctrl.mSearchQuery.Size}} Km</span>
+    <span class="search-criteria" ng-show="$ctrl.mSearchQuery.Mode">{{$ctrl.mSearchQuery.Mode | gamemode}}</span>
+    <span class="search-criteria" ng-show="$ctrl.mSearchQuery.Layer">{{$ctrl.mSearchQuery.Layer | layout}}</span>
+</div>
+
 <div class="card-wrapper">
-    <a class="map-card" ng-repeat="map in $ctrl.Maps" ng-click="$ctrl.OpenDetails(map);" > 
+    <a class="map-card" ng-repeat="map in $ctrl.Maps" href="{{$ctrl.GetUrl(map)}}" style="background-color: {{map.Color}};"> 
         <img class="map-image" ng-src="./images/maps/{{$ctrl.getKey(map.Name)}}/tile.jpg" />
         <div class="map-info">
             <span class="map-name">{{map.Name}}</span> <span class="map-size">({{map.Size}} km)</span>

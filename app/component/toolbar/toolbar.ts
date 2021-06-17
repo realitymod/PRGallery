@@ -2,13 +2,16 @@ import * as angular from 'angular';
 import * as router from '@uirouter/angularjs';
 import { Layout } from '../../model/Layout';
 import { ToolbarService } from '../../service/ToolbarService/ToolbarService';
+import { SearchEvent } from '../search/search';
+import { UrlUtils } from '../../utils/UrlUtils';
 
 class ToolbarComponent implements ng.IComponentController {
 
     public static $inject = ["ToolbarService", "$state"];
-    public Query: string;
+    private useFullSearchBar;
 
     constructor(private ToolbarService: ToolbarService, private mState: router.StateService) {
+
     }
 
     public get Title(){
@@ -26,11 +29,34 @@ class ToolbarComponent implements ng.IComponentController {
         return this.ToolbarService.Busy;
     }
 
-    public OnQueryChange(){
-        //console.log("OnQueryChange: " + this.Query);
+    public get ShowSearch():boolean{
+        // Reset the full search bar if the search is not avaiable
+        // this way when the user goes back to the main page
+        // the search bar is not visible
+        if(this.useFullSearchBar && !this.ToolbarService.SearchAvailable)
+        {
+            this.useFullSearchBar = false;
+        }
+        
+        return this.ToolbarService.SearchAvailable;
+    }
+
+    public get UseFullSearchBar():boolean{
+        return this.useFullSearchBar;
+    }
+
+    public set UseFullSearchBar(value:boolean){
+        this.useFullSearchBar = value;
+    }
+
+    public OnSearch(event: SearchEvent) : void
+    {
         this.mState.go("browser", {
-            "q": this.Query,
-        });
+            "name": event.Name,
+            "size": UrlUtils.ArrayToUrl(event.Size),
+            "mode": UrlUtils.ArrayToUrl(event.Mode),
+            "layer": UrlUtils.ArrayToUrl(event.Layer),
+        });   
     }
 }
 
