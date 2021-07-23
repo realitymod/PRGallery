@@ -1,0 +1,24 @@
+<div class="search-component">
+    <div class="search-bar">
+        <i class="action material-icons desktop-only">search</i>
+        <input ng-model="$ctrl.SearchModelData.Name" ng-change="$ctrl.OnQueryChange()" placeholder="search" ng-blur="$ctrl.IsSearchFocused = false;" ng-focus="$ctrl.IsSearchFocused = true;" />
+        
+        <div class="chip-wrapper">
+            <div class="chip" ng-show="$ctrl.Chips" ng-click="$ctrl.OnClear($index, chip);"  ng-repeat="chip in $ctrl.Chips">
+                {{chip.Title}}
+                <i class="action material-icons">close</i>
+            </div>
+        </div>
+    </div>
+    <div class="anchor" ng-show="$ctrl.ShowSugestions" ng-mouseenter="$ctrl.IsSugestionsFocused = true;" ng-mouseleave="$ctrl.IsSugestionsFocused = false;" >
+        <div class="sugestion-window">
+            <div class="title">{{$ctrl.OptionsMenu.Title}} Options</div>
+            
+            <div class="sugestions">
+                <div class="sugestion"  ng-repeat="subMenu in $ctrl.OptionsMenu.SubMenu" ng-click="$ctrl.OnMenuClick(subMenu)">
+                    {{subMenu.Title}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

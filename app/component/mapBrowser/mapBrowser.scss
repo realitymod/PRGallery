@@ -5,6 +5,20 @@ map-browser{
     overflow: auto;
     height: 100%;
     
+    .search-status{
+        display: table;
+        margin: 0 auto;
+        padding: 10px;
+        .search-criteria {
+            background-color: #39c;
+            color: #111;
+            padding: 10px 20px;
+            border-radius: 15px;
+            margin: 0px 10px;
+            display: inline-block;
+        }
+    }
+
     .card-wrapper{
         display: flex;
         flex-wrap: wrap;

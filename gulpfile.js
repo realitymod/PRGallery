@@ -13,22 +13,32 @@ const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify-es').default;
 const rename = require("gulp-rename");
 
+const FILES_TO_COPY = [
+    'app/manifest.webmanifest',
+    'app/icon/*.*'
+];
+
 gulp.task('browserify', function() {
 
     return browserify('app/index.ts')
         .plugin(tsify)
         .bundle()
-        .pipe(source('main.js'))
+        .pipe(source('main.min.js'))
+        .pipe(buffer())
+        .pipe(uglify(/* options */))
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task("uglify", ["browserify"], function () {
-    return gulp.src("dist/main.js")
-        .pipe(rename("main.min.js"))
-        .pipe(uglify(/* options */))
-        .pipe(gulp.dest("dist/"));
-});
+gulp.task('serviceworker', function() {
 
+    return browserify('app/service_worker.ts')
+        .plugin(tsify)
+        .bundle()
+        .pipe(source('service_worker.js'))
+        .pipe(buffer())
+        .pipe(uglify(/* options */))
+        .pipe(gulp.dest('dist'))
+});
 
 /*
  * Minify and uglify CSS
@@ -58,20 +68,29 @@ gulp.task('minify', function() {
 /*
  *
  */
+gulp.task('staticfiles', function() {
+    return gulp.src(FILES_TO_COPY,  {base: './app/'}).pipe(gulp.dest('dist'));
+});
+
+/*
+ *
+ */
 gulp.task('watch', function() {
-    gulp.watch('app/**/*.html', ['minify']);
-    gulp.watch('app/**/*.ts', ['uglify']);
-    gulp.watch('app/**/*.scss', ['styles']);
+    gulp.watch('app/**/*.html', gulp.series('minify'));
+    gulp.watch(['app/**/*.ts', '!app/service_worker.ts'], gulp.series('browserify'));
+    gulp.watch('app/**/*.scss', gulp.series('styles'));
+    gulp.watch('app/service_worker.ts', gulp.series('serviceworker'));
+    gulp.watch(FILES_TO_COPY, gulp.series('staticfiles'));
 });
 
 
 /*
  * Run Server
  */
-gulp.task('webserver', ['uglify', 'minify', 'styles'], function() {
+gulp.task('webserver', gulp.series('browserify', 'minify', 'styles', 'staticfiles', 'serviceworker', function() {
     server
         .static('dist', 3000)
         .start();
-});
+}));
 
-gulp.task('default', ['webserver', 'watch']);
+gulp.task('default', gulp.parallel('webserver', 'watch'));

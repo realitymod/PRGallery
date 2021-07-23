@@ -4,3 +4,4 @@ import './assetsPanel';
 import './layoutSelector';
 import './routeSelector';
 import './toolbar';
+import './search';

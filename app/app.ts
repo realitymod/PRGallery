@@ -18,9 +18,11 @@ class App {
                 ToolbarService.Title = "Project Reality: Map Gallery"
                 ToolbarService.Subtitle = undefined;
                 ToolbarService.CanGoBack = false;
+                ToolbarService.SearchAvailable = true;
 
             } else if (state.name == "details") {
                 ToolbarService.CanGoBack = true;
+                ToolbarService.SearchAvailable = false;
                 
                 let level: Level = trans.injector().get('level');
                 ToolbarService.Title = `${level.Name} (${level.Size}Km)`;
@@ -39,14 +41,9 @@ angular
 
         $stateProvider.state({
             name: 'browser',
-            url: '/?q',
-            params: {
-                q: {
-                    dynamic: true
-                },
-            },
+            url: '/?name&size&mode&layer',
             component: 'mapBrowser',
-
+            reloadOnSearch: false,
         }).state({
             name: 'details',
             url: '/{map}/{gamemode}/{layout}?routes',
