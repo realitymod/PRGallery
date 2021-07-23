@@ -31,6 +31,10 @@ export const ModeMenu: Menu = {
         {
             Title: "Objective",
             Value: "gpm_objective",
+        },
+        {
+            Title: "Gungame",
+            Value: "gpm_gungame",
         }
     ],
 };
