@@ -7,6 +7,7 @@ let _CNC = 2;
 let _SKI = 3;
 let _COP = 4;
 let _VEH = 5;
+let _GUN = 6;
 
 let _INF = 1;
 let _ALT = 2;
@@ -22,6 +23,7 @@ class LayoutSelectorComponent implements ng.IComponentController {
     public SKI = _SKI;
     public COP = _COP;
     public VEH = _VEH;
+    public GUN = _GUN;
 
     public INF = _INF;
     public ALT = _ALT;
@@ -74,6 +76,9 @@ class LayoutSelectorComponent implements ng.IComponentController {
     private SelectLayout(mode: number, layer: number) {
         let gamemode;
         switch (mode) {
+            case _GUN:
+                gamemode = GameMode.GunGame;
+                break;
             case _VEH:
                 gamemode = GameMode.VehicleWarfare;
                 break;
@@ -178,7 +183,6 @@ class LayoutSelectorComponent implements ng.IComponentController {
                 return _VEH;
             case GameMode.Cooperative:
                 return _COP;
-
             case GameMode.Skirmish:
                 return _SKI;
             case GameMode.CNC:
@@ -189,6 +193,8 @@ class LayoutSelectorComponent implements ng.IComponentController {
                 return _INS;
             case GameMode.AssaultAndSecure:
                 return _AAS;
+            case GameMode.GunGame:
+                return _GUN;
             default:
                 return -1;
         }
