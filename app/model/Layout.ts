@@ -19,6 +19,7 @@ export interface Layout {
 }
 
 export class GameMode {
+    public static GunGame = "gpm_gungame";
     public static AssaultAndSecure = "gpm_cq";
     public static VehicleWarfare = "gpm_vehicles";
     public static Cooperative = "gpm_coop";
@@ -27,6 +28,7 @@ export class GameMode {
     public static Objective = "gpm_objective";
     public static Insurgency = "gpm_insurgency";
 
+    private static GunGame_Name = "Gungame";
     private static AssaultAndSecure_Name = "Assault and Secure";
     private static VehicleWarfare_Name = "Vehicle Warfare";
     private static Cooperative_Name = "Cooperative";
@@ -38,6 +40,8 @@ export class GameMode {
 
     public static ProperName(key: string) {
         switch (key) {
+            case GameMode.GunGame:
+                return GameMode.GunGame_Name;
             case GameMode.VehicleWarfare:
                 return GameMode.VehicleWarfare_Name;
             case GameMode.Cooperative:
