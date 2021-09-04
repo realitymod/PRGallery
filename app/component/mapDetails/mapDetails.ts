@@ -530,64 +530,79 @@ class MapDetailsComponent implements router.Ng1Controller {
     }
 
     private RenderCombatAreas(layer: L.LayerGroup) {
+        // Combat areas (CAs) come in two varieties: Inverted and NonInverted
+        // In both, the CA's points define a polygon but while in the inverted we
+        // need to paint the inside, in the NonInverted CA we need to paint everyhing else
+        // but the polygon's inside.
+
+        let [boundingBox, combatAreaLinkedToBox] = this.GetCombatAreaBoundingBox();
+        let combatAreaHoles :L.LatLng[][] = [];
         for (let k = 0; k < this.layout.CombatAreas.length; k++) {
             let dod = this.layout.CombatAreas[k];
             
-            if(dod.Points.length < 3)
-            {
-                // A polygon needs at least 3 vertives
-                continue;
-            }
+            // If we're using this combat area as a bounding box, then
+            // no need to do anything more with it
+            if(k == combatAreaLinkedToBox){ continue; }
 
-            let polygon = [];
+            // A polygon needs at least 3 vertives
+            if(dod.Points.length < 3){ continue; }
+
+            let polygon: L.LatLng[] = [] ;
             for (let j = 0; j < dod.Points.length; j++) {
                 polygon.push(this.Unproject(dod.Points[j].X, dod.Points[j].Y));
             }
 
-            var latlngs;
             if (!dod.Inverted) {
-                let outerRing = [];
-                outerRing.push(this.mMap.unproject(new L.Point(0, 0), this.MaxZoom));
-                outerRing.push(this.mMap.unproject(new L.Point(this.mScale, 0), this.MaxZoom));
-                outerRing.push(this.mMap.unproject(new L.Point(this.mScale, this.mScale), this.MaxZoom));
-                outerRing.push(this.mMap.unproject(new L.Point(0, this.mScale), this.MaxZoom));
-
-                latlngs = [outerRing, polygon];
-            }
-            else {
-                latlngs = polygon;
+                combatAreaHoles.push(polygon);
+                continue;
             }
 
-
-            let color: string;
-            let fillOpacity = 0.2;
-
-            switch (dod.Team) {
-                case 0:
-                    color = "black";
-                    fillOpacity = 0.5;
-                    break;
-                case 1:
-                    color = "#2c99af";
-                    break;
-                case 2:
-                    color = "rgb(148, 27, 12)";
-                    break;
-            }
-
-            // Add the polygon to layer
-            L.polygon(latlngs, { 
-                color: color, 
-                stroke: true,
-                weight: 1,
-                opacity: 0.7,
-                fillOpacity: fillOpacity,
-                interactive: false
-            }).addTo(layer);
+            // Add the Inverted Combat area polygin to the  layer
+            L.polygon(polygon, MapDetailsComponent.CreateCombatAreaPolygonOptions(dod.Team)).addTo(layer);
         }
+
+        // Render a "combat area" all over the map
+        // except in the safe zones (defined by the NonInverted CAs)
+        var pol = [boundingBox];
+        pol = pol.concat(combatAreaHoles);
+        L.polygon(pol, MapDetailsComponent.CreateCombatAreaPolygonOptions(0)).addTo(layer);
     }
 
+    private GetCombatAreaBoundingBox() : [L.LatLng[], number]{
+        var halfSize = this.mScale/2;
+        let boundinxBox = {Top: halfSize, Bottom: -halfSize, Right: halfSize, Left: -halfSize};
+        let boundingBoxCombatArea = -1;
 
+        for (let k = 0; k < this.layout.CombatAreas.length; k++) {
+            let dod = this.layout.CombatAreas[k];
+            
+            // A boundinx box needs to be a square and can't be inverted
+            if(dod.Points.length != 4 || dod.Inverted) {continue;}
+
+            let box = {Top: 0, Bottom: 0, Right: 0, Left: 0};
+            for (let j = 0; j < dod.Points.length; j++) {   
+                box.Top = Math.max(box.Top, dod.Points[j].Y);
+                box.Bottom = Math.min(box.Bottom, dod.Points[j].Y);
+                box.Right = Math.max(box.Right, dod.Points[j].X);
+                box.Left = Math.min(box.Left, dod.Points[j].X);
+            }
+
+            // Trusting that we're dealing with perfectly centered squares
+            if(box.Top > boundinxBox.Top){
+                boundinxBox = box;
+                boundingBoxCombatArea = k;
+            }
+        }
+
+        let coordsOfBoundingBox = [
+            this.Unproject(boundinxBox.Right, boundinxBox.Top),
+            this.Unproject(boundinxBox.Left, boundinxBox.Top),
+            this.Unproject(boundinxBox.Left, boundinxBox.Bottom),
+            this.Unproject(boundinxBox.Right, boundinxBox.Bottom),
+        ];
+
+        return [coordsOfBoundingBox, boundingBoxCombatArea];
+    }
     public get MaxZoom() {
         if (this.level !== undefined)
             return Math.log2(this.mScale) - 8;
@@ -682,6 +697,32 @@ class MapDetailsComponent implements router.Ng1Controller {
         }
     }
 
+    private static CreateCombatAreaPolygonOptions(team: number){
+        let color: string;
+            let fillOpacity = 0.2;
+
+        switch (team) {
+            case 0:
+                color = "black";
+                fillOpacity = 0.5;
+                break;
+            case 1:
+                color = "#2c99af";
+                break;
+            case 2:
+                color = "rgb(148, 27, 12)";
+                break;
+        }
+        
+        return { 
+            color: color, 
+            stroke: true,
+            weight: 1,
+            opacity: 0.7,
+            fillOpacity: fillOpacity,
+            interactive: false
+        }
+    }
 }
 
 /**
