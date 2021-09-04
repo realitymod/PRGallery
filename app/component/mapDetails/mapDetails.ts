@@ -558,32 +558,8 @@ class MapDetailsComponent implements router.Ng1Controller {
                 latlngs = polygon;
             }
 
-
-            let color: string;
-            let fillOpacity = 0.2;
-
-            switch (dod.Team) {
-                case 0:
-                    color = "black";
-                    fillOpacity = 0.5;
-                    break;
-                case 1:
-                    color = "#2c99af";
-                    break;
-                case 2:
-                    color = "rgb(148, 27, 12)";
-                    break;
-            }
-
             // Add the polygon to layer
-            L.polygon(latlngs, { 
-                color: color, 
-                stroke: true,
-                weight: 1,
-                opacity: 0.7,
-                fillOpacity: fillOpacity,
-                interactive: false
-            }).addTo(layer);
+            L.polygon(latlngs, MapDetailsComponent.CreateCombatAreaPolygonOptions(dod.Team)).addTo(layer);
         }
     }
 
@@ -682,6 +658,32 @@ class MapDetailsComponent implements router.Ng1Controller {
         }
     }
 
+    private static CreateCombatAreaPolygonOptions(team: number){
+        let color: string;
+            let fillOpacity = 0.2;
+
+        switch (team) {
+            case 0:
+                color = "black";
+                fillOpacity = 0.5;
+                break;
+            case 1:
+                color = "#2c99af";
+                break;
+            case 2:
+                color = "rgb(148, 27, 12)";
+                break;
+        }
+        
+        return { 
+            color: color, 
+            stroke: true,
+            weight: 1,
+            opacity: 0.7,
+            fillOpacity: fillOpacity,
+            interactive: false
+        }
+    }
 }
 
 /**
