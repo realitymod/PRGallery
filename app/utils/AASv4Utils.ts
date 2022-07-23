@@ -7,24 +7,28 @@ export class AASv4Utils {
             throw new Error(`Unexpected SSIG, got: ${sgid}`);
         }
 
-        if(sgid == -1)
-        {
+        if (sgid == -1) {
             return new AASv4ControlPoint(0, 1, 0);
         }
-    
+
         // Each digit of the sgid represents a diferent thing, so its 
         // easier if we simply convert it to a string and handle each character individually
         // We can have the following SGID structures:
         // A 
         // AB
         // ABC
-        // ABBCC
         // AABBBCC
         // Where:
         // - A: Indicates the Sequence that the control point belongs to
         // - B: The number of control points that will be active in the given sequence
         // - C: The route to which the control point belongs to
         var stringSgid = sgid.toString();
+
+        // A valid SGID can have 1, 2, 3 and 6 digits BUT since we're treating this as a number when 
+        // we have 6 digits that start with a zero, we 'drop it' thus we need to pad it to ensure is correct
+        if (stringSgid.length > 3) {
+            stringSgid = stringSgid.padStart(6, '0');
+        }
 
         var sequence = AASv4Utils.GetSequence(stringSgid);
         var flagsInPlay = AASv4Utils.GetFlagsInPlay(stringSgid);
@@ -34,8 +38,8 @@ export class AASv4Utils {
     }
 
     private static GetSequence(sgid: string): number {
-        var sequence;
-        if (sgid.length == 6) {
+        var sequence : string;
+        if (sgid.length > 3) {
             sequence = sgid.substring(0, 2);
         } else {
             sequence = sgid.substring(0, 1);
