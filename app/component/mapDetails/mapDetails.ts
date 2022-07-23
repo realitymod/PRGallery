@@ -10,6 +10,7 @@ import { ControlPoint } from '../../model/ControlPoint';
 import { Vector3, Vector2 } from '../../model/Vector';
 import { MapService } from '../../service/MapService/MapService';
 import { ToolbarService } from '../../service/ToolbarService/ToolbarService';
+import { AASv4Utils } from '../../utils/AASv4Utils';
 
 
 let COLORS = [
@@ -251,13 +252,8 @@ class MapDetailsComponent implements router.Ng1Controller {
         for (let k = 0; k < this.layout.ControlPoints.length; k++) {
             let cp = this.layout.ControlPoints[k];
 
-            let sgid = cp.SupplyGroupId;
-
-            // we attempt obtain the route of the flag
-            let cpRoute: number = sgid > 99 ? parseInt(sgid.toString()[2]) : 0;
-
-
-            nRoutes = Math.max(nRoutes, cpRoute);
+            let flagInfo = AASv4Utils.ParseRoute(cp.SupplyGroupId);
+            nRoutes = Math.max(nRoutes, flagInfo.Route);
         }
 
         this.mNumberOfRoutes = nRoutes;
@@ -439,11 +435,11 @@ class MapDetailsComponent implements router.Ng1Controller {
     private RenderRoute(route: number, layer: L.LayerGroup) {
 
         if (this.layout.Mode !== GameMode.Skirmish && this.layout.Mode !== GameMode.AssaultAndSecure && this.layout.Mode !== GameMode.Cooperative)
+        {
             return;
+        }
 
         let points: ControlPoint[][] = this.GetControlPointsOfRoute(route);
-
-
 
         // We start in the main bases with SGID of 1
         let previousCenter: Vector3 = {
@@ -631,46 +627,23 @@ class MapDetailsComponent implements router.Ng1Controller {
      */
     private GetControlPointsOfRoute(intededRoute: number) {
         let points: ControlPoint[][] = [];
+
         for (let k = 0; k < this.layout.ControlPoints.length; k++) {
             let cp: ControlPoint = this.layout.ControlPoints[k];
-
-            // SGID is made by 3 digits - ABC:
-            // 'A' defines order
-            // 'B' defines paralelism (Two or more flags can have the same order, B defines how many will be in play)
-            // 'C' defines route
-            let sgid = cp.SupplyGroupId;
-            //console.debug("SGID: " + sgid);
-            let cpOrder: number = 0;
-
-            // If SGID is '-1' we keep order zero (should only happen once for the one Team 2's main base)
-            if (sgid > 0) {
-                cpOrder = parseInt(sgid.toString()[0]);
-
-            } else if (cp.Team == 1) {
-                cpOrder = 1;
-
-            } else if (cp.Team == 2) {
-                cpOrder = 0;
-
-            } else {
-                continue;
-            }
-
-
-            // we attempt obtain the route of the flag
-            let cpRoute: number = sgid > 99 ? parseInt(sgid.toString()[2]) : -1;
+            let flagInfo = AASv4Utils.ParseRoute(cp.SupplyGroupId);
 
             // Make sure the matrix is read
-            if (points[cpOrder] === undefined)
-                points[cpOrder] = [];
+            if (points[flagInfo.Sequence] === undefined){
+                points[flagInfo.Sequence] = [];
+            }
 
-            // if SGID does not have 3 digits then it will be in all routes
-            if (sgid < 100 || cpRoute == intededRoute || cpRoute == 0) {
-                points[cpOrder].push(cp);
+            // We must include any control point that is explicitly set to this route and
+            // any other cp that does not have a route defined
+            if (flagInfo.Route == intededRoute || flagInfo.Route == 0) {
+                points[flagInfo.Sequence].push(cp);
             }
         }
 
-        //console.debug(`GetControlPointsOfRoute, route: ${intededRoute} Flags: ${JSON.stringify(intededRoute)}`);
         return points;
     }
 
