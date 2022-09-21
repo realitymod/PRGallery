@@ -96,7 +96,7 @@ class LayoutSelectorComponent implements ng.IComponentController {
                 break;
             case _AAS:
             default:
-                gamemode = GameMode.AssaultAndSecure;
+                gamemode = GameMode.AdvanceAndSecure;
         }
 
 
@@ -191,7 +191,7 @@ class LayoutSelectorComponent implements ng.IComponentController {
                 return LayoutSelectorComponent.Objective_Name;*/
             case GameMode.Insurgency:
                 return _INS;
-            case GameMode.AssaultAndSecure:
+            case GameMode.AdvanceAndSecure:
                 return _AAS;
             case GameMode.GunGame:
                 return _GUN;

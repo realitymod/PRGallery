@@ -97,7 +97,7 @@ export class MapService {
 
     public static EvalGameMode(gamemode: string) {
         switch (gamemode) {
-            case GameMode.AssaultAndSecure:
+            case GameMode.AdvanceAndSecure:
                 return 7000;
             case GameMode.Insurgency:
                 return 6000;

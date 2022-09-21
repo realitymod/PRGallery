@@ -434,7 +434,7 @@ class MapDetailsComponent implements router.Ng1Controller {
 
     private RenderRoute(route: number, layer: L.LayerGroup) {
 
-        if (this.layout.Mode !== GameMode.Skirmish && this.layout.Mode !== GameMode.AssaultAndSecure && this.layout.Mode !== GameMode.Cooperative)
+        if (this.layout.Mode !== GameMode.Skirmish && this.layout.Mode !== GameMode.AdvanceAndSecure && this.layout.Mode !== GameMode.Cooperative)
         {
             return;
         }
