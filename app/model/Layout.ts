@@ -20,7 +20,7 @@ export interface Layout {
 
 export class GameMode {
     public static GunGame = "gpm_gungame";
-    public static AssaultAndSecure = "gpm_cq";
+    public static AdvanceAndSecure = "gpm_cq";
     public static VehicleWarfare = "gpm_vehicles";
     public static Cooperative = "gpm_coop";
     public static Skirmish = "gpm_skirmish";
@@ -29,7 +29,7 @@ export class GameMode {
     public static Insurgency = "gpm_insurgency";
 
     private static GunGame_Name = "Gungame";
-    private static AssaultAndSecure_Name = "Assault and Secure";
+    private static AdvanceAndSecure_Name = "Advance and Secure";
     private static VehicleWarfare_Name = "Vehicle Warfare";
     private static Cooperative_Name = "Cooperative";
     private static Skirmish_Name = "Skirmish";
@@ -46,8 +46,8 @@ export class GameMode {
                 return GameMode.VehicleWarfare_Name;
             case GameMode.Cooperative:
                 return GameMode.Cooperative_Name;
-            case GameMode.AssaultAndSecure:
-                return GameMode.AssaultAndSecure_Name;
+            case GameMode.AdvanceAndSecure:
+                return GameMode.AdvanceAndSecure_Name;
             case GameMode.Skirmish:
                 return GameMode.Skirmish_Name;
             case GameMode.CNC:
