@@ -39,7 +39,7 @@ class AssetsPanelComponent implements ng.IController {
 
             // Populate the list properly
             for (let k = 0; k < newValue.length; k++) {
-                let spawner = newValue[k];
+                let spawner:Spawner = newValue[k];
 
                 if (!spawner.Vehicle)
                     continue;
@@ -48,10 +48,10 @@ class AssetsPanelComponent implements ng.IController {
 
                 if (extendedAssets[spawner.Team][key] === undefined) {
                     extendedAssets[spawner.Team][key] = <SpawnerExtended>spawner;
-                    extendedAssets[spawner.Team][key].Quantity = 1;
+                    extendedAssets[spawner.Team][key].Quantity = spawner.MaxNrOfSpawns ?? 1;
                     extendedAssets[spawner.Team][key].uids = [spawner.uid ];
                 } else {
-                    extendedAssets[spawner.Team][key].Quantity += 1;
+                    extendedAssets[spawner.Team][key].Quantity += spawner.MaxNrOfSpawns ?? 1;
                     extendedAssets[spawner.Team][key].uids.push(spawner.uid);
                 }
             }

@@ -10,5 +10,6 @@ export interface Spawner {
     Team: number;
     Position: Vector3;
     Rotation: Vector3;
+    MaxNrOfSpawns?: number;
 }
 
