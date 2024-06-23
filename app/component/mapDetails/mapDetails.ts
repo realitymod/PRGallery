@@ -723,7 +723,7 @@ class IconManager {
         if (type === 'flag')
             return L.point(33, 33);
         else if (type == "asset")
-            return L.point(16, 16);
+            return L.point(32, 32);
 
         return L.point(0, 0);
     }

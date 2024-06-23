@@ -92,10 +92,9 @@ assets-panel{
                     background: rgba(255, 255, 255, 0.1);
                 }
                 .spawnwer-icon{
-                    width: 16px;
-                    height: 16px;
+                    width: 32px;
+                    height: 32px;
                     margin: 0px 15px 0 10px;
-                    transform: scale(calc(32 / 16));
                     image-rendering: optimizespeed; // Force pixelation. Only works on FF
                     image-rendering: pixelated; // Only works on Chrome
                 }
